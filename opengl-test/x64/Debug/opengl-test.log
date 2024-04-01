@@ -1,0 +1,23 @@
+﻿  part1.c
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(85,25): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(86,25): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(114,15): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(115,15): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(116,15): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(110,16): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(111,16): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(136,44): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(137,44): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(154,20): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(190,33): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(191,33): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(195,33): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(196,33): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(201,39): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(202,39): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(235,12): warning C4101: 'y' :참조되지 않은 지역 변수입니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(235,9): warning C4101: 'x' :참조되지 않은 지역 변수입니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(309,20): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(310,20): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\opengl-test\opengl-test\part1.c(348,21): warning C4113: 'void (__cdecl *)()'은(는) 'void (__cdecl *)(void)'과(와) 매개 변수 목록이 다릅니다.
+  opengl-test.vcxproj -> C:\Users\user\source\repos\opengl-test\x64\Debug\opengl-test.exe

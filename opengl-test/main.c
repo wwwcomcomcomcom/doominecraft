@@ -2,7 +2,7 @@
 //--------------------------Code By: 3DSage-------------------------------------
 //----------------Video tutorial on YouTube-3DSage------------------------------
 //------------------------------------------------------------------------------
-#define _USE_MATH_DEFINES
+
 #include <math.h>
 #include <stdio.h>
 #include <GL/glut.h> 
@@ -27,21 +27,7 @@ typedef struct
 	int sl, sr;             //strafe left, right 
 	int m;                 //move up, down, look up, down
 }keys; keys K;
-
-typedef struct
-{
-	float cos[360];
-	float sin[360];
-}math; math M;
-
-typedef struct
-{
-	int x, y, z;
-	int a;
-	int l;
-}player; player P;
 //------------------------------------------------------------------------------
-
 
 void pixel(int x, int y, int c)                  //draw a pixel at x/y with rgb
 {
@@ -144,13 +130,6 @@ void KeysUp(unsigned char key, int x, int y)
 
 void init()
 {
-	int x;
-
-	for (x = 0; x < 360; x++) {
-		M.cos[x] = cos(x / 180.0 * M_PI);
-		M.sin[x] = sin(x / 180.0 * M_PI);
-		//https://youtu.be/huMO4VQEwPc?t=375
-	}
 }
 
 int main(int argc, char* argv[])

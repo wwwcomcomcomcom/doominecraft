@@ -53,4 +53,4 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-x64/Debug
+opengl-test/x64/Debug

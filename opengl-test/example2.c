@@ -1,4 +1,5 @@
 #include <GL/glut.h>
+#include <stdio.h>
 
 typedef struct
 {

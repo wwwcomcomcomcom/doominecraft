@@ -44,7 +44,63 @@ void pixel(int x, int y, int c)                  //draw a pixel at x/y with rgb
 	glColor3ub(rgb[0], rgb[1], rgb[2]);
 	glBegin(GL_POINTS);
 	glVertex2i(x * pixelScale + 2, y * pixelScale + 2);
+	/*glVertex3i(10, 10,x);
+	glVertex3i(10, 20,x);
+	glVertex3i(20, 20,x);
+	glVertex3i(20, 10,x);*/
+	//glColor3ub(0, 255, 0);     // Green
+	//glVertex3f(20.0f, 20.0f, -20.0f);
+	//glVertex3f(-20.0f, 20.0f, -20.0f);
+	//glVertex3f(-20.0f, 20.0f, 20.0f);
+	//glVertex3f(20.0f, 20.0f, 20.0f);
+
+	//// Bottom face (y = -20.0f)
+	//glColor3ub(255, 127, 0);     // Orange
+	//glVertex3f(20.0f, -20.0f, 20.0f);
+	//glVertex3f(-20.0f, -20.0f, 20.0f);
+	//glVertex3f(-20.0f, -20.0f, -20.0f);
+	//glVertex3f(20.0f, -20.0f, -20.0f);
+
+	// Front face  (z = 20.0f)
+	//glColor3ub(255, 0, 0);     // Red
+	//glVertex3i(50, 50, x);
+	//glVertex3i(10, 50, x);
+	//glVertex3i(10, 10, x);
+	//glVertex3i(50, 10, x);
+	//printf("%d\n", x);
+
+	//// Back face (z = -20.0f)
+	//glColor3ub(255, 255, 0.0f);     // Yellow
+	//glVertex3f(20.0f, -20.0f, -20.0f);
+	//glVertex3f(-20.0f, -20.0f, -20.0f);
+	//glVertex3f(-20.0f, 20.0f, -20.0f);
+	//glVertex3f(20.0f, 20.0f, -20.0f);
+
+	//// Left face (x = -20.0f)
+	//glColor3ub(0, 0, 255);     // Blue
+	//glVertex3f(-20.0f, 20.0f, 20.0f);
+	//glVertex3f(-20.0f, 20.0f, -20.0f);
+	//glVertex3f(-20.0f, -20.0f, -20.0f);
+	//glVertex3f(-20.0f, -20.0f, 20.0f);
+
+	//// Right face (x = 20.0f)
+	//glColor3ub(255, 0, 255);     // Magenta
+	//glVertex3f(20.0f, 20.0f, -20.0f);
+	//glVertex3f(20.0f, 20.0f, 20.0f);
+	//glVertex3f(20.0f, -20.0f, 20.0f);
+	//glVertex3f(20.0f, -20.0f, -20.0f);
 	glEnd();
+}
+
+void cube(int x){
+	glColor3ub(255, 0, 0);     // Red
+	glBegin(GL_QUADS);
+	glVertex3i(50, 50, x);
+	glVertex3i(10, 50, x);
+	glVertex3i(10, 10, x);
+	glVertex3i(50, 10, x);
+	glEnd();
+	printf("%d\n", x);
 }
 
 void movePlayer()
@@ -76,7 +132,7 @@ void clearBackground()
 int tick;
 void draw3D()
 {
-	int x, y, c = 0;
+	/*int x, y, c = 0;
 	for (y = 0; y < SH2; y++)
 	{
 		for (x = 0; x < SW2; x++)
@@ -84,9 +140,10 @@ void draw3D()
 			pixel(x, y, c);
 			c += 1; if (c > 8) { c = 0; }
 		}
-	}
+	}*/
 	//frame rate
-	tick += 1; if (tick > 20) { tick = 0; } pixel(SW2, SH2 + tick, 0);
+	tick += 1; if (tick > 50) { tick = 0; } cube(tick/10);
+	//tick += 1; if (tick > 50) { tick = 0; } pixel(tick, SH2 + tick, 0);
 }
 
 void display()

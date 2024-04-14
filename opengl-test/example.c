@@ -1,76 +1,207 @@
-#include <GL/glut.h>
+//------------------------------------------------------------------------------
+//--------------------------Code By: 3DSage-------------------------------------
+//----------------Video tutorial on YouTube-3DSage------------------------------
+//------------------------------------------------------------------------------
 
-void display() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    glTranslatef(0.0f, 0.0f, -5.0f);
+#include <math.h>
+#include <stdio.h>
+#include <GL/glut.h> 
 
-    // Draw a colored cube
-    glBegin(GL_QUADS);
+#define res        1                        //0=160x120 1=360x240 4=640x480
+#define SW         160*res                  //screen width
+#define SH         120*res                  //screen height
+#define SW2        (SW/2)                   //half of screen width
+#define SH2        (SH/2)                   //half of screen height
+#define pixelScale 4/res                    //OpenGL pixel scale
+#define GLSW       (SW*pixelScale)          //OpenGL window width
+#define GLSH       (SH*pixelScale)          //OpenGL window height
+//------------------------------------------------------------------------------
+typedef struct
+{
+	int fr1, fr2;           //frame 1 frame 2, to create constant frame rate
+}time; time T;
 
-    // Front face
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
+typedef struct
+{
+	int w, s, a, d;           //move up, down, left, right
+	int sl, sr;             //strafe left, right 
+	int m;                 //move up, down, look up, down
+}keys; keys K;
+//------------------------------------------------------------------------------
 
-    // Back face
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
+void pixel(int x, int y, int c)                  //draw a pixel at x/y with rgb
+{
+	int rgb[3];
+	if (c == 0) { rgb[0] = 255; rgb[1] = 255; rgb[2] = 0; } //Yellow	
+	if (c == 1) { rgb[0] = 160; rgb[1] = 160; rgb[2] = 0; } //Yellow darker	
+	if (c == 2) { rgb[0] = 0; rgb[1] = 255; rgb[2] = 0; } //Green	
+	if (c == 3) { rgb[0] = 0; rgb[1] = 160; rgb[2] = 0; } //Green darker	
+	if (c == 4) { rgb[0] = 0; rgb[1] = 255; rgb[2] = 255; } //Cyan	
+	if (c == 5) { rgb[0] = 0; rgb[1] = 160; rgb[2] = 160; } //Cyan darker
+	if (c == 6) { rgb[0] = 160; rgb[1] = 100; rgb[2] = 0; } //brown	
+	if (c == 7) { rgb[0] = 110; rgb[1] = 50; rgb[2] = 0; } //brown darker
+	if (c == 8) { rgb[0] = 0; rgb[1] = 60; rgb[2] = 130; } //background 
+	glColor3ub(rgb[0], rgb[1], rgb[2]);
+	glBegin(GL_POINTS);
+	glVertex2i(x * pixelScale + 2, y * pixelScale + 2);
+	/*glVertex3i(10, 10,x);
+	glVertex3i(10, 20,x);
+	glVertex3i(20, 20,x);
+	glVertex3i(20, 10,x);*/
+	//glColor3ub(0, 255, 0);     // Green
+	//glVertex3f(20.0f, 20.0f, -20.0f);
+	//glVertex3f(-20.0f, 20.0f, -20.0f);
+	//glVertex3f(-20.0f, 20.0f, 20.0f);
+	//glVertex3f(20.0f, 20.0f, 20.0f);
 
-    // Top face
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
+	//// Bottom face (y = -20.0f)
+	//glColor3ub(255, 127, 0);     // Orange
+	//glVertex3f(20.0f, -20.0f, 20.0f);
+	//glVertex3f(-20.0f, -20.0f, 20.0f);
+	//glVertex3f(-20.0f, -20.0f, -20.0f);
+	//glVertex3f(20.0f, -20.0f, -20.0f);
 
-    // Bottom face
-    glColor3f(1.0f, 1.0f, 0.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
+	// Front face  (z = 20.0f)
+	//glColor3ub(255, 0, 0);     // Red
+	//glVertex3i(50, 50, x);
+	//glVertex3i(10, 50, x);
+	//glVertex3i(10, 10, x);
+	//glVertex3i(50, 10, x);
+	//printf("%d\n", x);
 
-    // Right face
-    glColor3f(1.0f, 0.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);
+	//// Back face (z = -20.0f)
+	//glColor3ub(255, 255, 0.0f);     // Yellow
+	//glVertex3f(20.0f, -20.0f, -20.0f);
+	//glVertex3f(-20.0f, -20.0f, -20.0f);
+	//glVertex3f(-20.0f, 20.0f, -20.0f);
+	//glVertex3f(20.0f, 20.0f, -20.0f);
 
-    // Left face
-    glColor3f(0.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
+	//// Left face (x = -20.0f)
+	//glColor3ub(0, 0, 255);     // Blue
+	//glVertex3f(-20.0f, 20.0f, 20.0f);
+	//glVertex3f(-20.0f, 20.0f, -20.0f);
+	//glVertex3f(-20.0f, -20.0f, -20.0f);
+	//glVertex3f(-20.0f, -20.0f, 20.0f);
 
-    glEnd();
-
-    glutSwapBuffers();
+	//// Right face (x = 20.0f)
+	//glColor3ub(255, 0, 255);     // Magenta
+	//glVertex3f(20.0f, 20.0f, -20.0f);
+	//glVertex3f(20.0f, 20.0f, 20.0f);
+	//glVertex3f(20.0f, -20.0f, 20.0f);
+	//glVertex3f(20.0f, -20.0f, -20.0f);
+	glEnd();
 }
 
-void reshape(int w, int h) {
-    glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.0, (float)w / (float)h, 1.0, 100.0);
-    glMatrixMode(GL_MODELVIEW);
+void cube(int x){
+	glColor3ub(255, 0, 0);     // Red
+	glBegin(GL_QUADS);
+	glVertex3i(50, 50, x);
+	glVertex3i(10, 50, x);
+	glVertex3i(10, 10, x);
+	glVertex3i(50, 10, x);
+	glEnd();
+	printf("%d\n", x);
 }
 
-int main(int argc, char** argv) {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(500, 500);
-    glutCreateWindow("OpenGL Cube");
-    glEnable(GL_DEPTH_TEST);
-    glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
-    glutMainLoop();
-    return 0;
+void movePlayer()
+{
+	//move up, down, left, right
+	if (K.a == 1 && K.m == 0) { printf("left\n"); }
+	if (K.d == 1 && K.m == 0) { printf("right\n"); }
+	if (K.w == 1 && K.m == 0) { printf("up\n"); }
+	if (K.s == 1 && K.m == 0) { printf("down\n"); }
+	//strafe left, right
+	if (K.sr == 1) { printf("strafe left\n"); }
+	if (K.sl == 1) { printf("strafe right\n"); }
+	//move up, down, look up, look down
+	if (K.a == 1 && K.m == 1) { printf("look up\n"); }
+	if (K.d == 1 && K.m == 1) { printf("look down\n"); }
+	if (K.w == 1 && K.m == 1) { printf("move up\n"); }
+	if (K.s == 1 && K.m == 1) { printf("move down\n"); }
+}
+
+void clearBackground()
+{
+	int x, y;
+	for (y = 0; y < SH; y++)
+	{
+		for (x = 0; x < SW; x++) { pixel(x, y, 8); } //clear background color
+	}
+}
+
+int tick;
+void draw3D()
+{
+	/*int x, y, c = 0;
+	for (y = 0; y < SH2; y++)
+	{
+		for (x = 0; x < SW2; x++)
+		{
+			pixel(x, y, c);
+			c += 1; if (c > 8) { c = 0; }
+		}
+	}*/
+	//frame rate
+	tick += 1; if (tick > 50) { tick = 0; } cube(tick/10);
+	//tick += 1; if (tick > 50) { tick = 0; } pixel(tick, SH2 + tick, 0);
+}
+
+void display()
+{
+	int x, y;
+	if (T.fr1 - T.fr2 >= 50)                        //only draw 20 frames/second
+	{
+		clearBackground();
+		movePlayer();
+		draw3D();
+
+		T.fr2 = T.fr1;
+		glutSwapBuffers();
+		glutReshapeWindow(GLSW, GLSH);             //prevent window scaling
+	}
+
+	T.fr1 = glutGet(GLUT_ELAPSED_TIME);          //1000 Milliseconds per second
+	glutPostRedisplay();
+}
+
+void KeysDown(unsigned char key, int x, int y)
+{
+	if (key == 'w' == 1) { K.w = 1; }
+	if (key == 's' == 1) { K.s = 1; }
+	if (key == 'a' == 1) { K.a = 1; }
+	if (key == 'd' == 1) { K.d = 1; }
+	if (key == 'm' == 1) { K.m = 1; }
+	if (key == ',' == 1) { K.sr = 1; }
+	if (key == '.' == 1) { K.sl = 1; }
+}
+void KeysUp(unsigned char key, int x, int y)
+{
+	if (key == 'w' == 1) { K.w = 0; }
+	if (key == 's' == 1) { K.s = 0; }
+	if (key == 'a' == 1) { K.a = 0; }
+	if (key == 'd' == 1) { K.d = 0; }
+	if (key == 'm' == 1) { K.m = 0; }
+	if (key == ',' == 1) { K.sr = 0; }
+	if (key == '.' == 1) { K.sl = 0; }
+}
+
+void init()
+{
+}
+
+int main(int argc, char* argv[])
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitWindowPosition(GLSW / 2, GLSH / 2);
+	glutInitWindowSize(GLSW, GLSH);
+	glutCreateWindow("");
+	glPointSize(pixelScale);                        //pixel size
+	gluOrtho2D(0, GLSW, 0, GLSH);                      //origin bottom left
+	init();
+	glutDisplayFunc(display);
+	glutKeyboardFunc(KeysDown);
+	glutKeyboardUpFunc(KeysUp);
+	glutMainLoop();
+	return 0;
 }

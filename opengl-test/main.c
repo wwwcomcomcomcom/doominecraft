@@ -1,11 +1,17 @@
 #include <GL/glut.h>
 #include <stdio.h>
+#include <math.h>
 
 #define PI 3.1415926535
 
 int lastX, lastY;
-float rotationX = 0, rotationY = PI/2;
-float cameraX = 0.0f, cameraY = 0.0f, cameraZ = 5.0f;
+int width, height;
+
+typedef struct
+{
+    float rotationX, rotationY;
+    float x, y, z;
+}player; player P;
 
 typedef struct
 {
@@ -17,13 +23,23 @@ typedef struct
     int time1, time2;
 }time; time Time;
 
+typedef struct
+{
+    float cos[360];        //Save sin cos in values 0-360 degrees 
+    float sin[360];
+}math; math M;
+
 void movePlayer()
 {
-    //move up, down, left, right
-    if (K.a == 1) { cameraX -= 0.5f; }
-    if (K.d == 1) { cameraX += 0.5f; }
-    if (K.w == 1) { cameraZ -= 0.5f; }
-    if (K.s == 1) { cameraZ += 0.5f; }
+    float dx = -sin(P.rotationY * PI / 180);
+    float dy = cos(P.rotationY * PI / 180);
+    printf("%.1f %.1f\n", dx,dy);
+    //wasd
+    if (K.w == 1) { P.x += dx; P.z += dy; }
+    if (K.s == 1) { P.x -= dx; P.z -= dy; }
+
+    if (K.a == 1) { P.x += dy; P.z -= dx; }
+    if (K.d == 1) { P.x -= dy; P.z += dx; }
 }
 void KeysDown(unsigned char key, int x, int y)
 {
@@ -41,27 +57,25 @@ void KeysUp(unsigned char key, int x, int y)
 }
 
 void mouse(int x, int y) {
-    int deltaX = x - lastX;
-    int deltaY = y - lastY;
-    lastX = x;
-    lastY = y;
+    int aW = width / 2, aH = height / 2;
+    int deltaX = (x -aW) * 0.1;
+    int deltaY = (y -aH) * 0.1;
 
-    rotationX += deltaY * 0.2f;
-    rotationY += deltaX * 0.2f;
+    glutWarpPointer(aW, aH);
+    /*lastX = x;
+    lastY = y;*/
+
+    P.rotationX += deltaY * 0.5f;
+    P.rotationY += deltaX * 0.5f;
 }
 
-int tick = 0;
-
 void cube() {
-    tick++;
     glLoadIdentity();
-    glRotatef(-rotationX, 1.0f, 0.0f, 0.0f);
-    glRotatef(-rotationY, 0.0f, 1.0f, 0.0f);
-    glTranslatef(-cameraX, -cameraY, -cameraZ);
-
+    glRotatef(P.rotationX, 1.0f, 0.0f, 0.0f);
+    glRotatef(P.rotationY, 0.0f, 1.0f, 0.0f);
+    glTranslatef(P.x, P.y, P.z);
     // Draw a colored cube
     glBegin(GL_QUADS);
-
     // Front face
     glColor3f(1.0f, 0.0f, 0.0f);
     glVertex3f(-1.0f, -1.0f, 1.0f);
@@ -114,18 +128,29 @@ void display() {
         movePlayer();
 
         cube();
-
         Time.time2 = Time.time1;
-
         glutSwapBuffers();
     }
-
     Time.time1 = glutGet(GLUT_ELAPSED_TIME);
-
     glutPostRedisplay();
 }
 
+void init()
+{
+    //store sin/cos in degrees
+    for (int x = 0; x < 360; x++)                         //precalulate sin cos in degrees
+    {
+        M.cos[x] = cos(x / 180.0 * PI);
+        M.sin[x] = sin(x / 180.0 * PI);
+    }
+    //init player
+    P.x = 0; P.y = 0; P.z = -5;
+    P.rotationX = 0.0f; P.rotationY = 0;
+}
+
 void reshape(int w, int h) {
+    width = w;
+    height = h;
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -139,6 +164,7 @@ int main(int argc, char** argv) {
     glutInitWindowSize(500, 500);
     glutCreateWindow("OpenGL Cube");
     glEnable(GL_DEPTH_TEST);
+    init();
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutPassiveMotionFunc(mouse); // Use glutPassiveMotionFunc for mouse movement without clicking

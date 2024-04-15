@@ -168,8 +168,6 @@ int main(int argc, char** argv) {
     glutPassiveMotionFunc(mouse); // Use glutPassiveMotionFunc for mouse movement without clicking
     glutKeyboardFunc(KeysDown);
     glutKeyboardUpFunc(KeysUp);
-    lastX = 250;
-    lastY = 250;
     glutMainLoop();
     return 0;
 }

@@ -22,12 +22,6 @@ typedef struct
     int time1, time2;
 }time; time Time;
 
-typedef struct
-{
-    float cos[360];        //Save sin cos in values 0-360 degrees 
-    float sin[360];
-}math; math M;
-
 void movePlayer()
 {
     float dx = -sin(P.rotationY * PI / 180);
@@ -135,12 +129,6 @@ void display() {
 
 void init()
 {
-    //store sin/cos in degrees
-    for (int x = 0; x < 360; x++)                         //precalulate sin cos in degrees
-    {
-        M.cos[x] = cos(x / 180.0 * PI);
-        M.sin[x] = sin(x / 180.0 * PI);
-    }
     //init player
     P.x = 0; P.y = 0; P.z = -5;
     P.rotationX = 0.0f; P.rotationY = 0;

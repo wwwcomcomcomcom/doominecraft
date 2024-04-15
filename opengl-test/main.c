@@ -4,7 +4,6 @@
 
 #define PI 3.1415926535
 
-int lastX, lastY;
 int width, height;
 
 typedef struct
@@ -33,13 +32,17 @@ void movePlayer()
 {
     float dx = -sin(P.rotationY * PI / 180);
     float dy = cos(P.rotationY * PI / 180);
-    printf("%.1f %.1f\n", dx,dy);
     //wasd
     if (K.w == 1) { P.x += dx; P.z += dy; }
     if (K.s == 1) { P.x -= dx; P.z -= dy; }
 
     if (K.a == 1) { P.x += dy; P.z -= dx; }
     if (K.d == 1) { P.x -= dy; P.z += dx; }
+
+    glLoadIdentity();
+    glRotatef(P.rotationX, 1.0f, 0.0f, 0.0f);
+    glRotatef(P.rotationY, 0.0f, 1.0f, 0.0f);
+    glTranslatef(P.x, P.y, P.z);
 }
 void KeysDown(unsigned char key, int x, int y)
 {
@@ -61,19 +64,14 @@ void mouse(int x, int y) {
     int deltaX = (x -aW) * 0.1;
     int deltaY = (y -aH) * 0.1;
 
+    glutSetCursor(GLUT_CURSOR_NONE);
     glutWarpPointer(aW, aH);
-    /*lastX = x;
-    lastY = y;*/
 
     P.rotationX += deltaY * 0.5f;
     P.rotationY += deltaX * 0.5f;
 }
 
 void cube() {
-    glLoadIdentity();
-    glRotatef(P.rotationX, 1.0f, 0.0f, 0.0f);
-    glRotatef(P.rotationY, 0.0f, 1.0f, 0.0f);
-    glTranslatef(P.x, P.y, P.z);
     // Draw a colored cube
     glBegin(GL_QUADS);
     // Front face

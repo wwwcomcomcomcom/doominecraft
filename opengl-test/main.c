@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #define PI 3.1415926535
+#define Size 0.5f
 //#define gravity 0.2f
 
 int width, height;
@@ -100,45 +101,45 @@ void cube(int x, int y, int z) {
     glBegin(GL_QUADS);
     // Front face
     glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(x-1.0f,y + -1.0f, z + 1.0f);
-    glVertex3f(x+1.0f, y + -1.0f, z + 1.0f);
-    glVertex3f(x + 1.0f, y + 1.0f, z + 1.0f);
-    glVertex3f(x + -1.0f, y + 1.0f, z + 1.0f);
+    glVertex3f(x-Size,y + -Size, z + Size);
+    glVertex3f(x+Size, y + -Size, z + Size);
+    glVertex3f(x + Size, y + Size, z + Size);
+    glVertex3f(x + -Size, y + Size, z + Size);
 
     // Back face
     glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(x -1.0f,y + -1.0f, z + -1.0f);
-    glVertex3f(x + -1.0f, y + 1.0f, z + -1.0f);
-    glVertex3f(x + 1.0f, y + 1.0f, z + -1.0f);
-    glVertex3f(x + 1.0f, y + -1.0f, z + -1.0f);
+    glVertex3f(x -Size,y + -Size, z + -Size);
+    glVertex3f(x + -Size, y + Size, z + -Size);
+    glVertex3f(x + Size, y + Size, z + -Size);
+    glVertex3f(x + Size, y + -Size, z + -Size);
 
     // Top face
     glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f(x + -1.0f, y + 1.0f, z + -1.0f);
-    glVertex3f(x + -1.0f, y + 1.0f, z + 1.0f);
-    glVertex3f(x + 1.0f, y + 1.0f, z + 1.0f);
-    glVertex3f(x + 1.0f, y + 1.0f, z + -1.0f);
+    glVertex3f(x + -Size, y + Size, z + -Size);
+    glVertex3f(x + -Size, y + Size, z + Size);
+    glVertex3f(x + Size, y + Size, z + Size);
+    glVertex3f(x + Size, y + Size, z + -Size);
 
     // Bottom face
     glColor3f(1.0f, 1.0f, 0.0f);
-    glVertex3f(x + -1.0f, y + -1.0f, z + -1.0f);
-    glVertex3f(x + 1.0f, y + -1.0f, z + -1.0f);
-    glVertex3f(x + 1.0f, y + -1.0f, z + 1.0f);
-    glVertex3f(x + -1.0f, y + -1.0f, z + 1.0f);
+    glVertex3f(x + -Size, y + -Size, z + -Size);
+    glVertex3f(x + Size, y + -Size, z + -Size);
+    glVertex3f(x + Size, y + -Size, z + Size);
+    glVertex3f(x + -Size, y + -Size, z + Size);
 
     // Right face
     glColor3f(1.0f, 0.0f, 1.0f);
-    glVertex3f(x + 1.0f, y + -1.0f, z + -1.0f);
-    glVertex3f(x + 1.0f, y + 1.0f, z + -1.0f);
-    glVertex3f(x + 1.0f, y + 1.0f, z + 1.0f);
-    glVertex3f(x + 1.0f, y + -1.0f, z + 1.0f);
+    glVertex3f(x + Size, y + -Size, z + -Size);
+    glVertex3f(x + Size, y + Size, z + -Size);
+    glVertex3f(x + Size, y + Size, z + Size);
+    glVertex3f(x + Size, y + -Size, z + Size);
 
     // Left face
     glColor3f(0.0f, 1.0f, 1.0f);
-    glVertex3f(x + -1.0f, y + -1.0f, z + -1.0f);
-    glVertex3f(x + -1.0f, y + -1.0f, z + 1.0f);
-    glVertex3f(x + -1.0f, y + 1.0f, z + 1.0f);
-    glVertex3f(x + -1.0f, y + 1.0f, z + -1.0f);
+    glVertex3f(x + -Size, y + -Size, z + -Size);
+    glVertex3f(x + -Size, y + -Size, z + Size);
+    glVertex3f(x + -Size, y + Size, z + Size);
+    glVertex3f(x + -Size, y + Size, z + -Size);
 
     glEnd();
 }
@@ -150,8 +151,8 @@ void display() {
         movePlayer();
 
         cube(0,0,0);
-        cube(2,0,0);
-        cube(-2,1,-2);
+        cube(1,0,0);
+        cube(-1,1,-1);
         Time.time2 = Time.time1;
         glutSwapBuffers();
     }

@@ -38,8 +38,8 @@ void movePlayer()
         P.vy = 2;
     }
 
-    float dx = -sin(P.rotationY * PI / 180);
-    float dy = cos(P.rotationY * PI / 180);
+    float dx = -sin(P.rotationY * PI / 180) * 0.5;
+    float dy = cos(P.rotationY * PI / 180) * 0.5;
     //wasd
     if (K.w == 1) { P.x += dx; P.z += dy; }
     if (K.s == 1) { P.x -= dx; P.z -= dy; }

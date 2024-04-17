@@ -143,6 +143,100 @@ void cube(int x, int y, int z) {
 
     glEnd();
 }
+void cubeWithBorder(int x, int y, int z) {
+    // Draw a colored cube
+    glBegin(GL_QUADS);
+    // Front face
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(x - Size, y - Size, z + Size);
+    glVertex3f(x + Size, y - Size, z + Size);
+    glVertex3f(x + Size, y + Size, z + Size);
+    glVertex3f(x + -Size, y + Size, z + Size);
+
+    // Back face
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glVertex3f(x - Size, y - Size, z - Size);
+    glVertex3f(x + -Size, y + Size, z - Size);
+    glVertex3f(x + Size, y + Size, z - Size);
+    glVertex3f(x + Size, y - Size, z - Size);
+
+    // Top face
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glVertex3f(x + -Size, y + Size, z - Size);
+    glVertex3f(x + -Size, y + Size, z + Size);
+    glVertex3f(x + Size, y + Size, z + Size);
+    glVertex3f(x + Size, y + Size, z - Size);
+
+    // Bottom face
+    glColor3f(1.0f, 1.0f, 0.0f);
+    glVertex3f(x + -Size, y - Size, z - Size);
+    glVertex3f(x + Size, y - Size, z - Size);
+    glVertex3f(x + Size, y - Size, z + Size);
+    glVertex3f(x + -Size, y - Size, z + Size);
+
+    // Right face
+    glColor3f(1.0f, 0.0f, 1.0f);
+    glVertex3f(x + Size, y - Size, z - Size);
+    glVertex3f(x + Size, y + Size, z - Size);
+    glVertex3f(x + Size, y + Size, z + Size);
+    glVertex3f(x + Size, y - Size, z + Size);
+
+    // Left face
+    glColor3f(0.0f, 1.0f, 1.0f);
+    glVertex3f(x + -Size, y - Size, z - Size);
+    glVertex3f(x + -Size, y - Size, z + Size);
+    glVertex3f(x + -Size, y + Size, z + Size);
+    glVertex3f(x + -Size, y + Size, z - Size);
+
+    glEnd();
+
+    // Draw cube edges as lines to create a border effect
+    glLineWidth(3.0f);
+    glBegin(GL_LINES);
+    glColor3f(0.0f, 0.0f, 0.0f); // Border color (black in this case)
+
+    // Front face border
+    glVertex3f(x - Size, y - Size, z + Size);
+    glVertex3f(x + Size, y - Size, z + Size);
+
+    glVertex3f(x + Size, y - Size, z + Size);
+    glVertex3f(x + Size, y + Size, z + Size);
+
+    glVertex3f(x + Size, y + Size, z + Size);
+    glVertex3f(x - Size, y + Size, z + Size);
+
+    glVertex3f(x - Size, y + Size, z + Size);
+    glVertex3f(x - Size, y - Size, z + Size);
+
+    // Back face border
+    glVertex3f(x - Size, y - Size, z - Size);
+    glVertex3f(x + Size, y - Size, z - Size);
+
+    glVertex3f(x + Size, y - Size, z - Size);
+    glVertex3f(x + Size, y + Size, z - Size);
+
+    glVertex3f(x + Size, y + Size, z - Size);
+    glVertex3f(x - Size, y + Size, z - Size);
+
+    glVertex3f(x - Size, y + Size, z - Size);
+    glVertex3f(x - Size, y - Size, z - Size);
+
+    // Connecting lines between front and back faces
+    glVertex3f(x - Size, y - Size, z + Size);
+    glVertex3f(x - Size, y - Size, z - Size);
+
+    glVertex3f(x + Size, y - Size, z + Size);
+    glVertex3f(x + Size, y - Size, z - Size);
+
+    glVertex3f(x + Size, y + Size, z + Size);
+    glVertex3f(x + Size, y + Size, z - Size);
+
+    glVertex3f(x - Size, y + Size, z + Size);
+    glVertex3f(x - Size, y + Size, z - Size);
+
+    glEnd();
+}
+
 
 void display() {
 
@@ -150,9 +244,13 @@ void display() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         movePlayer();
 
-        cube(0,0,0);
-        cube(1,0,0);
-        cube(-1,1,-1);
+        cubeWithBorder(0,0,0);
+        cubeWithBorder(1,0,0);
+        cubeWithBorder(1,0,1);
+        cubeWithBorder(0,0,1);
+        cubeWithBorder(-1,0,1);
+        cubeWithBorder(-1,0,-1);
+        cubeWithBorder(-1,1,-1);
         Time.time2 = Time.time1;
         glutSwapBuffers();
     }

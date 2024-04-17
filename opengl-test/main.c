@@ -3,6 +3,7 @@
 #include <math.h>
 
 #define PI 3.1415926535
+//#define gravity 0.2f
 
 int width, height;
 
@@ -10,6 +11,8 @@ typedef struct
 {
     float rotationX, rotationY;
     float x, y, z;
+    char isJumping;
+    float vy;
 }player; player P;
 
 typedef struct
@@ -19,7 +22,7 @@ typedef struct
 
 typedef struct
 {
-    int w, s, a, d;           //wasd
+    int w, s, a, d,space;           //wasd
 }keys; keys K;
 
 typedef struct
@@ -29,6 +32,10 @@ typedef struct
 
 void movePlayer()
 {
+    if (P.y == 0 && K.space) {
+        P.vy = 2;
+    }
+
     float dx = -sin(P.rotationY * PI / 180);
     float dy = cos(P.rotationY * PI / 180);
     //wasd
@@ -38,10 +45,20 @@ void movePlayer()
     if (K.a == 1) { P.x += dy; P.z -= dx; }
     if (K.d == 1) { P.x -= dy; P.z += dx; }
 
+    
+    P.y += P.vy*0.2;
+    if (P.y < 0) {
+        P.y = 0;
+        P.vy = 0;
+    }
+    else {
+        P.vy -= 0.2;
+    }
+
     glLoadIdentity();
     glRotatef(P.rotationX, 1.0f, 0.0f, 0.0f);
     glRotatef(P.rotationY, 0.0f, 1.0f, 0.0f);
-    glTranslatef(P.x, P.y, P.z);
+    glTranslatef(P.x,-P.y, P.z);
 }
 void KeysDown(unsigned char key, int x, int y)
 {
@@ -49,6 +66,7 @@ void KeysDown(unsigned char key, int x, int y)
     if (key == 's' == 1) { K.s = 1; }
     if (key == 'a' == 1) { K.a = 1; }
     if (key == 'd' == 1) { K.d = 1; }
+    if (key == ' ' == 1) { K.space = 1; }
 }
 void KeysUp(unsigned char key, int x, int y)
 {
@@ -56,12 +74,13 @@ void KeysUp(unsigned char key, int x, int y)
     if (key == 's' == 1) { K.s = 0; }
     if (key == 'a' == 1) { K.a = 0; }
     if (key == 'd' == 1) { K.d = 0; }
+    if (key == ' ' == 1) { K.space = 0; }
 }
 
 void mouse(int x, int y) {
     int aW = width / 2, aH = height / 2;
-    int deltaX = (x -aW) * 0.1;
-    int deltaY = (y -aH) * 0.1;
+    float deltaX = (x -aW) * 0.1;
+    float deltaY = (y -aH) * 0.1;
 
     glutSetCursor(GLUT_CURSOR_NONE);
     glutWarpPointer(aW, aH);
@@ -126,7 +145,7 @@ void display() {
 
         cube(0,0,0);
         cube(2,0,0);
-        cube(-1,1,-1);
+        cube(-2,1,-2);
         Time.time2 = Time.time1;
         glutSwapBuffers();
     }
@@ -139,6 +158,7 @@ void init()
     //init player
     P.x = 0; P.y = 0; P.z = -5;
     P.rotationX = 0.0f; P.rotationY = 0;
+    P.isJumping = 0;
 }
 
 void reshape(int w, int h) {

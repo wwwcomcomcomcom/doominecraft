@@ -1,17 +1,19 @@
 #include <GL/glut.h>
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
 
 #define PI 3.1415926535
 //#define gravity 0.2f
 
 int width, height;
+bool toggleMouseLock = true;
 
 typedef struct
 {
     float rotationX, rotationY;
     float x, y, z;
-    char isJumping;
+    bool isJumping;
     float vy;
 }player; player P;
 
@@ -62,31 +64,35 @@ void movePlayer()
 }
 void KeysDown(unsigned char key, int x, int y)
 {
-    if (key == 'w' == 1) { K.w = 1; }
-    if (key == 's' == 1) { K.s = 1; }
-    if (key == 'a' == 1) { K.a = 1; }
-    if (key == 'd' == 1) { K.d = 1; }
-    if (key == ' ' == 1) { K.space = 1; }
+    if (key == 'w') { K.w = 1; }
+    if (key == 's') { K.s = 1; }
+    if (key == 'a') { K.a = 1; }
+    if (key == 'd') { K.d = 1; }
+    if (key == ' ') { K.space = 1; }
+    //esc
+    if (key == 27) { toggleMouseLock = !toggleMouseLock; }
 }
 void KeysUp(unsigned char key, int x, int y)
 {
-    if (key == 'w' == 1) { K.w = 0; }
-    if (key == 's' == 1) { K.s = 0; }
-    if (key == 'a' == 1) { K.a = 0; }
-    if (key == 'd' == 1) { K.d = 0; }
-    if (key == ' ' == 1) { K.space = 0; }
+    if (key == 'w') { K.w = 0; }
+    if (key == 's') { K.s = 0; }
+    if (key == 'a') { K.a = 0; }
+    if (key == 'd') { K.d = 0; }
+    if (key == ' ') { K.space = 0; }
 }
 
 void mouse(int x, int y) {
-    int aW = width / 2, aH = height / 2;
-    float deltaX = (x -aW) * 0.1;
-    float deltaY = (y -aH) * 0.1;
-
-    glutSetCursor(GLUT_CURSOR_NONE);
-    glutWarpPointer(aW, aH);
-
-    P.rotationX += deltaY * 0.5f;
-    P.rotationY += deltaX * 0.5f;
+    if (toggleMouseLock) {
+        int aW = width / 2, aH = height / 2;
+        float deltaX = (x - aW) * 0.1;
+        float deltaY = (y - aH) * 0.1;
+        glutSetCursor(GLUT_CURSOR_NONE);
+        glutWarpPointer(aW, aH);
+        P.rotationX += deltaY * 0.5f;
+        P.rotationY += deltaX * 0.5f;
+    }else {
+        glutSetCursor(GLUT_CURSOR_INHERIT);
+    }
 }
 
 void cube(int x, int y, int z) {

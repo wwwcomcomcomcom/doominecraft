@@ -50,7 +50,7 @@ void cube(int x, int y, int z) {
     glEnd();
 }
 void cubeWithBorder(int x, int y, int z) {
-    y -= Size + 1.5;
+    //y -= Size + 1.5;
 
     cube(x, y, z);
     // Draw cube edges as lines to create a border effect

@@ -45,6 +45,6 @@ Player movePlayer(Player P,Keys K,Block* blocks)
     //glFrustum(0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 100.0f);
     glRotatef(P.rotationX, 1.0f, 0.0f, 0.0f);
     glRotatef(P.rotationY, 0.0f, 1.0f, 0.0f);
-    glTranslatef(-P.x, -P.y, -P.z);
+    glTranslatef(-P.x, -(P.y + 2), -P.z);
     return P;
 }

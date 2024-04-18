@@ -10,4 +10,4 @@
 ray caster, 3d renderer 이런것도 만들어보고 싶었는데,
 지금은 포기하고 opengl에서 주는 3d 렌더링 기능을 그대로 쓰고있다.
 
-### makeing Minecraft in c
+### making Minecraft in c

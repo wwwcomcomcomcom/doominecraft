@@ -84,9 +84,25 @@ void display() {
 }
 
 AABB getAABB(Block block) {
+    AABB aabb;
+    aabb.maxX = block.x + Size;
+    aabb.minX = block.x - Size;
+    aabb.maxY = block.y + Size;
+    aabb.minY = block.y - Size;
+    aabb.maxZ = block.z + Size;
+    aabb.minZ = block.z - Size;
+    return aabb;
 }
 bool isCollide(AABB obj1,AABB obj2) {
-
+    if (
+        obj1.maxX > obj2.minX
+        && obj2.maxX > obj1.minX
+        && obj1.maxY > obj2.minY
+        && obj2.maxY > obj1.minY
+        && obj1.maxZ > obj2.minZ
+        && obj2.maxZ > obj1.minZ
+        ) return true;
+    else return false;
 }
 
 Block makeBlock(int x,int y,int z) {

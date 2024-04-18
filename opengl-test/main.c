@@ -21,7 +21,9 @@ typedef struct
 typedef struct
 {
     int x, y, z;
-}block; block blocks[1000];
+}block;
+int blockLength = 0;
+block blocks[1000];
 
 typedef struct
 {
@@ -97,6 +99,7 @@ void mouse(int x, int y) {
 }
 
 void cube(int x, int y, int z) {
+
     // Draw a colored cube
     glBegin(GL_QUADS);
     // Front face
@@ -144,52 +147,9 @@ void cube(int x, int y, int z) {
     glEnd();
 }
 void cubeWithBorder(int x, int y, int z) {
-    // Draw a colored cube
-    glBegin(GL_QUADS);
-    // Front face
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(x - Size, y - Size, z + Size);
-    glVertex3f(x + Size, y - Size, z + Size);
-    glVertex3f(x + Size, y + Size, z + Size);
-    glVertex3f(x + -Size, y + Size, z + Size);
+    y -= Size + 1.5;
 
-    // Back face
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(x - Size, y - Size, z - Size);
-    glVertex3f(x + -Size, y + Size, z - Size);
-    glVertex3f(x + Size, y + Size, z - Size);
-    glVertex3f(x + Size, y - Size, z - Size);
-
-    // Top face
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f(x + -Size, y + Size, z - Size);
-    glVertex3f(x + -Size, y + Size, z + Size);
-    glVertex3f(x + Size, y + Size, z + Size);
-    glVertex3f(x + Size, y + Size, z - Size);
-
-    // Bottom face
-    glColor3f(1.0f, 1.0f, 0.0f);
-    glVertex3f(x + -Size, y - Size, z - Size);
-    glVertex3f(x + Size, y - Size, z - Size);
-    glVertex3f(x + Size, y - Size, z + Size);
-    glVertex3f(x + -Size, y - Size, z + Size);
-
-    // Right face
-    glColor3f(1.0f, 0.0f, 1.0f);
-    glVertex3f(x + Size, y - Size, z - Size);
-    glVertex3f(x + Size, y + Size, z - Size);
-    glVertex3f(x + Size, y + Size, z + Size);
-    glVertex3f(x + Size, y - Size, z + Size);
-
-    // Left face
-    glColor3f(0.0f, 1.0f, 1.0f);
-    glVertex3f(x + -Size, y - Size, z - Size);
-    glVertex3f(x + -Size, y - Size, z + Size);
-    glVertex3f(x + -Size, y + Size, z + Size);
-    glVertex3f(x + -Size, y + Size, z - Size);
-
-    glEnd();
-
+    cube(x, y, z);
     // Draw cube edges as lines to create a border effect
     glLineWidth(3.0f);
     glBegin(GL_LINES);
@@ -243,19 +203,26 @@ void display() {
     if (Time.time1 - Time.time2 >= 50) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         movePlayer();
-
-        cubeWithBorder(0,0,0);
-        cubeWithBorder(1,0,0);
-        cubeWithBorder(1,0,1);
-        cubeWithBorder(0,0,1);
-        cubeWithBorder(-1,0,1);
-        cubeWithBorder(-1,0,-1);
-        cubeWithBorder(-1,1,-1);
+        for (int i = 0; i < blockLength; i++) {
+            cubeWithBorder(
+                blocks[i].x,
+                blocks[i].y,
+                blocks[i].z
+            );
+        }
         Time.time2 = Time.time1;
         glutSwapBuffers();
     }
     Time.time1 = glutGet(GLUT_ELAPSED_TIME);
     glutPostRedisplay();
+}
+
+block makeBlock(int x,int y,int z) {
+    block result;
+    result.x = x;
+    result.y = y;
+    result.z = z;
+    return result;
 }
 
 void init()
@@ -264,6 +231,13 @@ void init()
     P.x = 0; P.y = 0; P.z = -5;
     P.rotationX = 0.0f; P.rotationY = 0;
     P.isJumping = 0;
+
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            blockLength++;
+            blocks[j+i*5] = makeBlock(i - 2, 0, j - 2);
+        }
+    }
 }
 
 void reshape(int w, int h) {

@@ -41,8 +41,6 @@ Player movePlayer(Player P,Keys K,Block* blocks)
     }
 
     glLoadIdentity();
-    //gluPerspective(50.0f, 1.0, 0.01f, 100.0f);
-    //glFrustum(0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 100.0f);
     glRotatef(P.rotationX, 1.0f, 0.0f, 0.0f);
     glRotatef(P.rotationY, 0.0f, 1.0f, 0.0f);
     glTranslatef(-P.x, -(P.y + 2), -P.z);

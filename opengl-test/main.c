@@ -3,20 +3,17 @@
 #include <math.h>
 #include <stdbool.h>
 
+#include "player.h"
+#include "controller.h"
+#include "drawing.h"
 #define PI 3.1415926535
-#define Size 0.5f
 //#define gravity 0.2f
 
 int width, height;
 bool toggleMouseLock = true;
 
-typedef struct
-{
-    float rotationX, rotationY;
-    float x, y, z;
-    bool isJumping;
-    float vy;
-}player; player P;
+Player P;
+Keys K;
 
 typedef struct
 {
@@ -27,44 +24,13 @@ block blocks[1000];
 
 typedef struct
 {
-    int w, s, a, d,space;           //wasd
-}keys; keys K;
-
-typedef struct
-{
     int time1, time2;
 }time; time Time;
 
-void movePlayer()
+typedef struct
 {
-    if (P.y == 0 && K.space) {
-        P.vy = 2;
-    }
-
-    float dx = -sin(P.rotationY * PI / 180) * 0.5;
-    float dy = cos(P.rotationY * PI / 180) * 0.5;
-    //wasd
-    if (K.w == 1) { P.x += dx; P.z += dy; }
-    if (K.s == 1) { P.x -= dx; P.z -= dy; }
-
-    if (K.a == 1) { P.x += dy; P.z -= dx; }
-    if (K.d == 1) { P.x -= dy; P.z += dx; }
-
-    
-    P.y += P.vy*0.2;
-    if (P.y < 0) {
-        P.y = 0;
-        P.vy = 0;
-    }
-    else {
-        P.vy -= 0.2;
-    }
-
-    glLoadIdentity();
-    glRotatef(P.rotationX, 1.0f, 0.0f, 0.0f);
-    glRotatef(P.rotationY, 0.0f, 1.0f, 0.0f);
-    glTranslatef(P.x,-P.y, P.z);
-}
+    float maxX, minX, maxY, minY, maxZ, minZ;
+}AABB;
 void KeysDown(unsigned char key, int x, int y)
 {
     if (key == 'w') { K.w = 1; }
@@ -98,111 +64,11 @@ void mouse(int x, int y) {
     }
 }
 
-void cube(int x, int y, int z) {
-
-    // Draw a colored cube
-    glBegin(GL_QUADS);
-    // Front face
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(x-Size,y + -Size, z + Size);
-    glVertex3f(x+Size, y + -Size, z + Size);
-    glVertex3f(x + Size, y + Size, z + Size);
-    glVertex3f(x + -Size, y + Size, z + Size);
-
-    // Back face
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(x -Size,y + -Size, z + -Size);
-    glVertex3f(x + -Size, y + Size, z + -Size);
-    glVertex3f(x + Size, y + Size, z + -Size);
-    glVertex3f(x + Size, y + -Size, z + -Size);
-
-    // Top face
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f(x + -Size, y + Size, z + -Size);
-    glVertex3f(x + -Size, y + Size, z + Size);
-    glVertex3f(x + Size, y + Size, z + Size);
-    glVertex3f(x + Size, y + Size, z + -Size);
-
-    // Bottom face
-    glColor3f(1.0f, 1.0f, 0.0f);
-    glVertex3f(x + -Size, y + -Size, z + -Size);
-    glVertex3f(x + Size, y + -Size, z + -Size);
-    glVertex3f(x + Size, y + -Size, z + Size);
-    glVertex3f(x + -Size, y + -Size, z + Size);
-
-    // Right face
-    glColor3f(1.0f, 0.0f, 1.0f);
-    glVertex3f(x + Size, y + -Size, z + -Size);
-    glVertex3f(x + Size, y + Size, z + -Size);
-    glVertex3f(x + Size, y + Size, z + Size);
-    glVertex3f(x + Size, y + -Size, z + Size);
-
-    // Left face
-    glColor3f(0.0f, 1.0f, 1.0f);
-    glVertex3f(x + -Size, y + -Size, z + -Size);
-    glVertex3f(x + -Size, y + -Size, z + Size);
-    glVertex3f(x + -Size, y + Size, z + Size);
-    glVertex3f(x + -Size, y + Size, z + -Size);
-
-    glEnd();
-}
-void cubeWithBorder(int x, int y, int z) {
-    y -= Size + 1.5;
-
-    cube(x, y, z);
-    // Draw cube edges as lines to create a border effect
-    glLineWidth(3.0f);
-    glBegin(GL_LINES);
-    glColor3f(0.0f, 0.0f, 0.0f); // Border color (black in this case)
-
-    // Front face border
-    glVertex3f(x - Size, y - Size, z + Size);
-    glVertex3f(x + Size, y - Size, z + Size);
-
-    glVertex3f(x + Size, y - Size, z + Size);
-    glVertex3f(x + Size, y + Size, z + Size);
-
-    glVertex3f(x + Size, y + Size, z + Size);
-    glVertex3f(x - Size, y + Size, z + Size);
-
-    glVertex3f(x - Size, y + Size, z + Size);
-    glVertex3f(x - Size, y - Size, z + Size);
-
-    // Back face border
-    glVertex3f(x - Size, y - Size, z - Size);
-    glVertex3f(x + Size, y - Size, z - Size);
-
-    glVertex3f(x + Size, y - Size, z - Size);
-    glVertex3f(x + Size, y + Size, z - Size);
-
-    glVertex3f(x + Size, y + Size, z - Size);
-    glVertex3f(x - Size, y + Size, z - Size);
-
-    glVertex3f(x - Size, y + Size, z - Size);
-    glVertex3f(x - Size, y - Size, z - Size);
-
-    // Connecting lines between front and back faces
-    glVertex3f(x - Size, y - Size, z + Size);
-    glVertex3f(x - Size, y - Size, z - Size);
-
-    glVertex3f(x + Size, y - Size, z + Size);
-    glVertex3f(x + Size, y - Size, z - Size);
-
-    glVertex3f(x + Size, y + Size, z + Size);
-    glVertex3f(x + Size, y + Size, z - Size);
-
-    glVertex3f(x - Size, y + Size, z + Size);
-    glVertex3f(x - Size, y + Size, z - Size);
-
-    glEnd();
-}
-
-
 void display() {
 
     if (Time.time1 - Time.time2 >= 50) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        movePlayer();
+        P = movePlayer(P,K);
         for (int i = 0; i < blockLength; i++) {
             cubeWithBorder(
                 blocks[i].x,
@@ -224,20 +90,24 @@ block makeBlock(int x,int y,int z) {
     result.z = z;
     return result;
 }
+void addBlock(int x,int y,int z) {
+    blocks[blockLength] = makeBlock(x,y,z);
+    blockLength++;
+}
 
 void init()
 {
     //init player
-    P.x = 0; P.y = 0; P.z = -5;
+    P.x = 0; P.y = 0; P.z = 0;
     P.rotationX = 0.0f; P.rotationY = 0;
-    P.isJumping = 0;
+    //P.isJumping = 0;
 
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
-            blockLength++;
-            blocks[j+i*5] = makeBlock(i - 2, 0, j - 2);
+            addBlock(i - 2, 0, j - 2);
         }
     }
+    addBlock(2, 1, 2);
 }
 
 void reshape(int w, int h) {

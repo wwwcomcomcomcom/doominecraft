@@ -31,6 +31,11 @@ typedef struct
 {
     float maxX, minX, maxY, minY, maxZ, minZ;
 }AABB;
+
+AABB getBlockAABB(Block block);
+AABB getPlayerAABB(Player player);
+bool isCollide(AABB obj1, AABB obj2);
+
 void KeysDown(unsigned char key, int x, int y)
 {
     if (key == 'w') { K.w = 1; }
@@ -76,6 +81,7 @@ void display() {
                 blocks[i].z
             );
         }
+        printf("%d\n",isCollide(getBlockAABB(blocks[blockLength - 1]),getPlayerAABB(P)));
         Time.time2 = Time.time1;
         glutSwapBuffers();
     }
@@ -83,7 +89,7 @@ void display() {
     glutPostRedisplay();
 }
 
-AABB getAABB(Block block) {
+AABB getBlockAABB(Block block) {
     AABB aabb;
     aabb.maxX = block.x + Size;
     aabb.minX = block.x - Size;
@@ -91,6 +97,16 @@ AABB getAABB(Block block) {
     aabb.minY = block.y - Size;
     aabb.maxZ = block.z + Size;
     aabb.minZ = block.z - Size;
+    return aabb;
+}
+AABB getPlayerAABB(Player player) {
+    AABB aabb;
+    aabb.maxX = player.x + playerHalfWidth;
+    aabb.minX = player.x - playerHalfWidth;
+    aabb.maxY = player.y + playerHalfHeight;
+    aabb.minY = player.y - playerHalfHeight;
+    aabb.maxZ = player.z + playerHalfWidth;
+    aabb.minZ = player.z - playerHalfWidth;
     return aabb;
 }
 bool isCollide(AABB obj1,AABB obj2) {

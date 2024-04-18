@@ -1,6 +1,9 @@
 #pragma once
 #include "controller.h"
-
+#define playerWidth 1.0f
+#define playerHeight 1.9f
+#define playerHalfWidth playerWidth/2
+#define playerHalfHeight playerHeight/2
 
 // 구조체 선언
 typedef struct

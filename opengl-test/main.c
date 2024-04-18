@@ -1,4 +1,5 @@
 #include <GL/glut.h>
+#include <GL/GL.h>
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
@@ -6,6 +7,8 @@
 #include "player.h"
 #include "controller.h"
 #include "drawing.h"
+#include "block.h"
+#include "collide.h"
 #define PI 3.1415926535
 //#define gravity 0.2f
 
@@ -15,10 +18,6 @@ bool toggleMouseLock = true;
 Player P;
 Keys K;
 
-typedef struct
-{
-    int x, y, z;
-}Block;
 int blockLength = 0;
 Block blocks[1000];
 
@@ -26,15 +25,6 @@ typedef struct
 {
     int time1, time2;
 }time; time Time;
-
-typedef struct
-{
-    float maxX, minX, maxY, minY, maxZ, minZ;
-}AABB;
-
-AABB getBlockAABB(Block block);
-AABB getPlayerAABB(Player player);
-bool isCollide(AABB obj1, AABB obj2);
 
 void KeysDown(unsigned char key, int x, int y)
 {
@@ -73,7 +63,7 @@ void display() {
 
     if (Time.time1 - Time.time2 >= 50) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        P = movePlayer(P,K);
+        P = movePlayer(P,K,blocks);
         for (int i = 0; i < blockLength; i++) {
             cubeWithBorder(
                 blocks[i].x,
@@ -81,44 +71,11 @@ void display() {
                 blocks[i].z
             );
         }
-        printf("%d\n",isCollide(getBlockAABB(blocks[blockLength - 1]),getPlayerAABB(P)));
         Time.time2 = Time.time1;
         glutSwapBuffers();
     }
     Time.time1 = glutGet(GLUT_ELAPSED_TIME);
     glutPostRedisplay();
-}
-
-AABB getBlockAABB(Block block) {
-    AABB aabb;
-    aabb.maxX = block.x + Size;
-    aabb.minX = block.x - Size;
-    aabb.maxY = block.y + Size;
-    aabb.minY = block.y - Size;
-    aabb.maxZ = block.z + Size;
-    aabb.minZ = block.z - Size;
-    return aabb;
-}
-AABB getPlayerAABB(Player player) {
-    AABB aabb;
-    aabb.maxX = player.x + playerHalfWidth;
-    aabb.minX = player.x - playerHalfWidth;
-    aabb.maxY = player.y + playerHalfHeight;
-    aabb.minY = player.y - playerHalfHeight;
-    aabb.maxZ = player.z + playerHalfWidth;
-    aabb.minZ = player.z - playerHalfWidth;
-    return aabb;
-}
-bool isCollide(AABB obj1,AABB obj2) {
-    if (
-        obj1.maxX > obj2.minX
-        && obj2.maxX > obj1.minX
-        && obj1.maxY > obj2.minY
-        && obj2.maxY > obj1.minY
-        && obj1.maxZ > obj2.minZ
-        && obj2.maxZ > obj1.minZ
-        ) return true;
-    else return false;
 }
 
 Block makeBlock(int x,int y,int z) {
@@ -154,7 +111,7 @@ void reshape(int w, int h) {
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0, (float)w / (float)h, 1.0, 100.0);
+    gluPerspective(45.0, (float)w / (float)h, 0.1, 100.0);
     glMatrixMode(GL_MODELVIEW);
 }
 

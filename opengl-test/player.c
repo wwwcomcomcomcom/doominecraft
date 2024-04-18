@@ -4,11 +4,14 @@
 #include "math.h"
 #include "player.h"
 #include "controller.h"
+#include "block.h"
+#include "collide.h"
 
 #define PI 3.1415926535
 
-Player movePlayer(Player P,Keys K)
+Player movePlayer(Player P,Keys K,Block* blocks)
 {
+    float tempX = P.x, tempY = P.y, tempZ = P.z;
     if (P.y == 0 && K.space) {
         P.vy = 2;
     }
@@ -31,8 +34,15 @@ Player movePlayer(Player P,Keys K)
     else {
         P.vy -= 0.2;
     }
+    if (isCollide(getBlockAABB(blocks[25]), getPlayerAABB(P))) {
+        P.x = tempX;
+        P.y = tempY;
+        P.z = tempZ;
+    }
 
     glLoadIdentity();
+    //gluPerspective(50.0f, 1.0, 0.01f, 100.0f);
+    //glFrustum(0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 100.0f);
     glRotatef(P.rotationX, 1.0f, 0.0f, 0.0f);
     glRotatef(P.rotationY, 0.0f, 1.0f, 0.0f);
     glTranslatef(-P.x, -P.y, -P.z);

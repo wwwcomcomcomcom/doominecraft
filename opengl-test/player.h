@@ -1,5 +1,6 @@
 #pragma once
 #include "controller.h"
+#include "block.h"
 #define playerWidth 1.0f
 #define playerHeight 1.9f
 #define playerHalfWidth playerWidth/2
@@ -14,4 +15,4 @@ typedef struct
 }Player;
 
 // 함수 선언
-Player movePlayer(Player, Keys);
+Player movePlayer(Player, Keys,Block*);

@@ -36,6 +36,9 @@
     <ClCompile Include="drawing.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="collide.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">
@@ -45,6 +48,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="drawing.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="block.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="collide.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

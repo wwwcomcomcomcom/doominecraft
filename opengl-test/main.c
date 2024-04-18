@@ -18,9 +18,9 @@ Keys K;
 typedef struct
 {
     int x, y, z;
-}block;
+}Block;
 int blockLength = 0;
-block blocks[1000];
+Block blocks[1000];
 
 typedef struct
 {
@@ -83,8 +83,14 @@ void display() {
     glutPostRedisplay();
 }
 
-block makeBlock(int x,int y,int z) {
-    block result;
+AABB getAABB(Block block) {
+}
+bool isCollide(AABB obj1,AABB obj2) {
+
+}
+
+Block makeBlock(int x,int y,int z) {
+    Block result;
     result.x = x;
     result.y = y;
     result.z = z;

@@ -1,6 +1,5 @@
 #include <GL/glut.h>
-
-#define Size 0.5f
+#include "drawing.h"
 
 void cube(int x, int y, int z) {
 

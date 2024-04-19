@@ -3,7 +3,7 @@
 #include "vec3.h"
 
 #define Size 0.5f
-#define arrSize 4
+#define arrSize 6
 
 
 #include <stdio.h>
@@ -34,7 +34,7 @@ int findMinIndex(float arr[], int size) {
     // 나머지 요소들과 비교하여 최솟값을 찾습니다.
     for (int i = 1; i < size; i++) {
         if (arr[i] < min) {
-            printf("%.1f < %.1f\n",arr[i],min);
+            //printf("%.1f < %.1f\n",arr[i],min);
             min = arr[i];
             minIndex = i;
         }
@@ -80,8 +80,8 @@ Vec3 isCollide(AABB obj1, AABB obj2) {
             obj2.minX - obj1.maxX,
             obj2.maxX - obj1.minX,
 
-            /*obj2.minY - obj1.maxY,
-            obj2.maxY - obj1.minY,*/
+            obj2.minY - obj1.maxY,
+            obj2.maxY - obj1.minY,
 
             obj2.minZ - obj1.maxZ,
             obj2.maxZ - obj1.minZ
@@ -106,7 +106,7 @@ Vec3 isCollide(AABB obj1, AABB obj2) {
             overlapOffset.x = min;
             break;
         case 1:
-            overlapOffset.z = min;
+            overlapOffset.y = min;
             break;
         case 2:
             overlapOffset.z = min;
@@ -119,7 +119,7 @@ Vec3 isCollide(AABB obj1, AABB obj2) {
 
         //if (overlapOffset.x > 0) overlapOffset.x = obj2.maxX - obj1.minX;
 
-        printf("%.1f %.1f\n", overlapOffset.x, overlapOffset.z);
+        //printf("%.1f %.1f %.1f\n", overlapOffset.x, overlapOffset.y, overlapOffset.z);
         /*if (overlapOffset.y > 0) overlapOffset.y = ;
         if (overlapOffset.z > 0) overlapOffset.z = ;*/
 

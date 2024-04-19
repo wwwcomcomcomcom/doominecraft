@@ -1,6 +1,7 @@
 #pragma once
 #include "controller.h"
 #include "block.h"
+#include "stdbool.h"
 #define playerWidth 1.0f
 #define playerHeight 1.9f
 #define playerHalfWidth playerWidth/2
@@ -12,6 +13,7 @@ typedef struct
     float rotationX, rotationY;
     float x, y, z;
     float vy;
+    bool onGround;
 }Player;
 
 // 함수 선언

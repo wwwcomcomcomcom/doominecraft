@@ -4,10 +4,10 @@
 #include <math.h>
 #include <stdbool.h>
 
+#include "block.h"
 #include "player.h"
 #include "controller.h"
 #include "drawing.h"
-#include "block.h"
 #include "collide.h"
 #define PI 3.1415926535
 //#define gravity 0.2f
@@ -18,8 +18,8 @@ bool toggleMouseLock = true;
 Player P;
 Keys K;
 
-int blockLength = 0;
-Block blocks[1000];
+//int blockLength = 0;
+//Block blocks[1000];
 
 typedef struct
 {
@@ -87,15 +87,16 @@ Block makeBlock(int x,int y,int z) {
 }
 void addBlock(int x,int y,int z) {
     blocks[blockLength] = makeBlock(x,y,z);
-    blockLength++;
+    blockLength = blockLength + 1;
 }
 
 void init()
 {
+    blockLength = 0;
     //init player
     P.x = 0; P.y = 0; P.z = 0;
     P.rotationX = 0.0f; P.rotationY = 0;
-    //P.isJumping = 0;
+    P.onGround = true;
 
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
@@ -103,6 +104,8 @@ void init()
         }
     }
     addBlock(2, 1, 2);
+    addBlock(1, 1, 1);
+    addBlock(2, 1, 1);
 }
 
 void reshape(int w, int h) {

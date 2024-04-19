@@ -42,6 +42,9 @@
     <ClCompile Include="vec3.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="block.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">

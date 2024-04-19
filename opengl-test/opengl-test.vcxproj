@@ -148,6 +148,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="player.c" />
+    <ClCompile Include="vec3.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collide.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="controller.h" />
     <ClInclude Include="drawing.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

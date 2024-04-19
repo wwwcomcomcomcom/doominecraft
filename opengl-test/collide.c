@@ -1,5 +1,48 @@
+#include <float.h>
 #include "collide.h"
+#include "vec3.h"
+
 #define Size 0.5f
+#define arrSize 4
+
+
+#include <stdio.h>
+#include <math.h>
+
+float* absOfArr(float* arr) {
+    static float result[arrSize];
+    for (int i = 0; i < arrSize; i++) {
+        result[i] = fabs(arr[i]);
+    }
+    return result;
+}
+/* result it's index*/
+//int minIndexOfArr(float arr[], int size) {
+//    int result = 0;
+//    for (int i = 1; i < size; i++)
+//    {
+//        if (arr[i] < arr[result]) result++;
+//    }
+//    return result;
+//}
+
+int findMinIndex(float arr[], int size) {
+    // 배열의 첫 번째 요소를 최솟값으로 가정합니다.
+    float min = arr[0];
+    int minIndex = 0;
+
+    // 나머지 요소들과 비교하여 최솟값을 찾습니다.
+    for (int i = 1; i < size; i++) {
+        if (arr[i] < min) {
+            printf("%.1f < %.1f\n",arr[i],min);
+            min = arr[i];
+            minIndex = i;
+        }
+    }
+
+    return minIndex;
+}
+
 
 AABB getBlockAABB(Block block) {
     AABB aabb;
@@ -21,7 +64,10 @@ AABB getPlayerAABB(Player player) {
     aabb.minZ = player.z - playerHalfWidth;
     return aabb;
 }
-bool isCollide(AABB obj1, AABB obj2) {
+Vec3 isCollide(AABB obj1, AABB obj2) {
+
+
+
     if (
         obj1.maxX > obj2.minX
         && obj2.maxX > obj1.minX
@@ -29,6 +75,55 @@ bool isCollide(AABB obj1, AABB obj2) {
         && obj2.maxY > obj1.minY
         && obj1.maxZ > obj2.minZ
         && obj2.maxZ > obj1.minZ
-        ) return true;
-    else return false;
+        ) {
+        float allOffset[arrSize] = {
+            obj2.minX - obj1.maxX,
+            obj2.maxX - obj1.minX,
+
+            /*obj2.minY - obj1.maxY,
+            obj2.maxY - obj1.minY,*/
+
+            obj2.minZ - obj1.maxZ,
+            obj2.maxZ - obj1.minZ
+        };
+
+        float* absArrP = absOfArr(allOffset);
+        int minIndex = findMinIndex(absArrP, arrSize);
+
+        //printf("%d\n\n", minIndex);
+
+        float min = allOffset[minIndex];
+
+        Vec3 overlapOffset = {
+            0.0f,
+            0.0f,
+            0.0f,
+        };
+
+        switch (minIndex/2)
+        {
+        case 0:
+            overlapOffset.x = min;
+            break;
+        case 1:
+            overlapOffset.z = min;
+            break;
+        case 2:
+            overlapOffset.z = min;
+            break;
+        default:
+            break;
+        }
+
+        
+
+        //if (overlapOffset.x > 0) overlapOffset.x = obj2.maxX - obj1.minX;
+
+        printf("%.1f %.1f\n", overlapOffset.x, overlapOffset.z);
+        /*if (overlapOffset.y > 0) overlapOffset.y = ;
+        if (overlapOffset.z > 0) overlapOffset.z = ;*/
+
+        return overlapOffset;
+    }
+    else return ORIGIN;
 }

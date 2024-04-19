@@ -13,7 +13,7 @@ Player movePlayer(Player P,Keys K,Block* blocks)
 {
     float tempX = P.x, tempY = P.y, tempZ = P.z;
     if (P.y == 0 && K.space) {
-        P.vy = 2;
+        P.vy = 3;
     }
 
     float dx = -sin(P.rotationY * PI / 180) * 0.5;
@@ -34,10 +34,11 @@ Player movePlayer(Player P,Keys K,Block* blocks)
     else {
         P.vy -= 0.2;
     }
-    if (isCollide(getBlockAABB(blocks[25]), getPlayerAABB(P))) {
-        P.x = tempX;
-        P.y = tempY;
-        P.z = tempZ;
+    Vec3 collideOffeset = isCollide(getPlayerAABB(P),getBlockAABB(blocks[25]));
+    if (!equalsVec3(collideOffeset,ORIGIN)) {
+        P.x += collideOffeset.x;
+        P.y += collideOffeset.y;
+        P.z += collideOffeset.z;
     }
 
     glLoadIdentity();

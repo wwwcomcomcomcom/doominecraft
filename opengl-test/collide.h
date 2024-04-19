@@ -1,5 +1,6 @@
 #pragma once
 #include "block.h"
+#include "vec3.h"
 #include "player.h"
 #include "stdbool.h"
 
@@ -10,4 +11,4 @@ typedef struct
 
 AABB getBlockAABB(Block);
 AABB getPlayerAABB(Player);
-bool isCollide(AABB, AABB);
+Vec3 isCollide(AABB, AABB);

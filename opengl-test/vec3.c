@@ -24,3 +24,11 @@ Vec3 multiplyVec3(Vec3 vector, float multiplier) {
 	vector.z *= multiplier;
 	return vector;
 }
+
+float getDistance(Vec3 fromVec, Vec3 toVec) {
+	return sqrtf(
+		powf(fromVec.x - toVec.x, 2)
+		+powf(fromVec.y - toVec.y, 2)
+		+powf(fromVec.z - toVec.z, 2)
+	);
+}

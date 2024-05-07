@@ -15,7 +15,7 @@ Block getTargettingBlock() {
 	}
 }
 
-void updateTarget(Player P) {
+void updateTarget() {
 	Vec3 facingVector = getVectorWithRotation(P.rotationX, P.rotationY);
 
 	int panelLength = blockLength * 6;
@@ -32,4 +32,10 @@ void updateTarget(Player P) {
 
 int comparePanelDistance(const Panel *a,const Panel *b) {
 	Vec3 aPos = getPanelPos(*a), bPos = getPanelPos(*b);
+	Vec3 playerVec = getPlayerPos(P);
+	float distanceA = getDistance(playerVec, aPos);
+	float distanceB = getDistance(playerVec, bPos);
+	if (distanceA < distanceB)
+		return -1;
+	return distanceA > distanceA;
 }

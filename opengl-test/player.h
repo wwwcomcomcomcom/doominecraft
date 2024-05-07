@@ -6,6 +6,7 @@
 #define playerHeight 1.9f
 #define playerHalfWidth playerWidth/2
 #define playerHalfHeight playerHeight/2
+#include "vec3.h"
 
 // 구조체 선언
 typedef struct
@@ -20,3 +21,4 @@ static Player P;
 
 // 함수 선언
 Player movePlayer(Player, Keys,Block*);
+Vec3 getPlayerPos(Player P);

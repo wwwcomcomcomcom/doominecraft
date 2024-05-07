@@ -1,5 +1,6 @@
 #include <GL/glut.h>
 #include "drawing.h"
+#include "block.h"
 
 void cube(int x, int y, int z) {
 

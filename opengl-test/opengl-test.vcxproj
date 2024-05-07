@@ -139,7 +139,9 @@
     <ClCompile Include="main.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="panel.c" />
     <ClCompile Include="player.c" />
+    <ClCompile Include="targetting.c" />
     <ClCompile Include="vec3.c" />
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +149,9 @@
     <ClInclude Include="block.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="drawing.h" />
+    <ClInclude Include="panel.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="targetting.h" />
     <ClInclude Include="vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

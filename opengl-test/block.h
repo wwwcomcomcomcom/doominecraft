@@ -1,4 +1,5 @@
 #pragma once
+#define Size 0.5f
 
 typedef struct
 {

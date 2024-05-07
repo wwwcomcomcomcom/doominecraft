@@ -34,7 +34,6 @@ int findMinIndex(float arr[], int size) {
     // 나머지 요소들과 비교하여 최솟값을 찾습니다.
     for (int i = 1; i < size; i++) {
         if (arr[i] < min) {
-            //printf("%.1f < %.1f\n",arr[i],min);
             min = arr[i];
             minIndex = i;
         }
@@ -89,8 +88,6 @@ Vec3 isCollide(AABB obj1, AABB obj2) {
 
         float* absArrP = absOfArr(allOffset);
         int minIndex = findMinIndex(absArrP, arrSize);
-
-        //printf("%d\n\n", minIndex);
 
         float min = allOffset[minIndex];
 

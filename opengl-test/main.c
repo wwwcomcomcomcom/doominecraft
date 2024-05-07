@@ -15,7 +15,7 @@
 int width, height;
 bool toggleMouseLock = true;
 
-Player P;
+//Player P;
 Keys K;
 
 //int blockLength = 0;

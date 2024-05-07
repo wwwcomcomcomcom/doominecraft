@@ -16,5 +16,7 @@ typedef struct
     bool onGround;
 }Player;
 
+static Player P;
+
 // 함수 선언
 Player movePlayer(Player, Keys,Block*);

@@ -13,3 +13,5 @@ static const Vec3 ORIGIN = {
 };
 
 bool equalsVec3(Vec3, Vec3);
+Vec3 getVectorWithRotation(float, float);
+Vec3 multiplyVec3(Vec3, float);

@@ -6,6 +6,7 @@
 #include "player.h"
 #include "controller.h"
 #include "collide.h"
+#include "vec3.h"
 
 #define PI 3.1415926535
 #define Speed 0.3
@@ -17,14 +18,15 @@ Player movePlayer(Player P,Keys K,Block* blocks)
         P.vy = 3;
     }
 
-    float dx = -sin(P.rotationY * PI / 180) * Speed;
-    float dy = cos(P.rotationY * PI / 180) * Speed;
+    Vec3 facingVector = getVectorWithRotation(P.rotationX, P.rotationY);
+    facingVector = multiplyVec3(facingVector, Speed);
+    
     //wasd
-    if (K.s == 1) { P.x += dx; P.z += dy; }
-    if (K.w == 1) { P.x -= dx; P.z -= dy; }
+    if (K.s == 1) { P.x += facingVector.x; P.z += facingVector.z; }
+    if (K.w == 1) { P.x -= facingVector.x; P.z -= facingVector.z; }
 
-    if (K.d == 1) { P.x += dy; P.z -= dx; }
-    if (K.a == 1) { P.x -= dy; P.z += dx; }
+    if (K.d == 1) { P.x += facingVector.z; P.z -= facingVector.x; }
+    if (K.a == 1) { P.x -= facingVector.z; P.z += facingVector.x; }
 
 
     P.y += P.vy * 0.2;
@@ -33,13 +35,7 @@ Player movePlayer(Player P,Keys K,Block* blocks)
         P.vy =0;
         P.onGround = true;
     }
-    //if (P.onGround) P.vy = 0;
-    /*else if(!P.onGround){
-        P.vy -= 0.2;
-    }*/
-    /*else if(P.vy < -0.01) {
-        P.vy = -0.01;
-    }*/
+    
     P.vy -= 0.2;
     P.onGround = false;
     for (int i = 0; i < blockLength; i++) {

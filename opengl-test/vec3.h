@@ -16,3 +16,4 @@ bool equalsVec3(Vec3, Vec3);
 Vec3 getVectorWithRotation(float, float);
 Vec3 multiplyVec3(Vec3, float);
 float getDistance(Vec3 fromVec, Vec3 toVec);
+Vec3 sumVector(Vec3 vec1, Vec3 vec2);

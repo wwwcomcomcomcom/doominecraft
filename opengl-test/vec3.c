@@ -32,3 +32,11 @@ float getDistance(Vec3 fromVec, Vec3 toVec) {
 		+powf(fromVec.z - toVec.z, 2)
 	);
 }
+
+Vec3 sumVector(Vec3 vec1, Vec3 vec2) {
+	Vec3 result;
+	result.x = vec1.x + vec2.x;
+	result.y = vec1.y + vec2.y;
+	result.z = vec1.z + vec2.z;
+	return result;
+}

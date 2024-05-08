@@ -1,9 +1,11 @@
 #pragma once
 #include "block.h"
+#include "panel.h"
 #include <stdbool.h>
 
-Block _targettedBlock;
-bool hasTargettedBlock = false;
+static Block _targettedBlock;
+static bool hasTargettedBlock = false;
 
 Block getTargettingBlock();
-int comparePanelDistance(Panel,Panel);
+int comparePanelDistance(Panel*,Panel*);
+void updateTarget();

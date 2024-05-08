@@ -1,9 +1,10 @@
+#include <stdio.h>
 #include "panel.h"
 #include "block.h"
 #include "vec3.h"
 
 Panel* convertToPanel(Block block) {
-	block.x;
+	
 	Panel panel1 = {
 		.axis = 'x',
 		.axisPos = block.x + Size,
@@ -52,7 +53,19 @@ Panel* convertToPanel(Block block) {
 		.yMax = block.y + Size,
 		.yMin = block.y - Size,
 	};
-	Panel result[6] = { panel1,panel2 ,panel3,panel4,panel5,panel6 };
+	//Panel result[6] = { panel1,panel2 ,panel3,panel4,panel5,panel6 };
+	static Panel result[1000];
+	//Panel* potiner = result;
+	result[0] = panel1;
+	result[1] = panel2;
+	result[2] = panel3;
+	result[3] = panel4;
+	result[4] = panel5;
+	result[5] = panel6;
+
+	for (int i = 0; i < 6; i++) {
+		printf("%c", result[i].axis);
+	}
 	return result;
 }
 

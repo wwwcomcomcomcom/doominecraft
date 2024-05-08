@@ -9,6 +9,7 @@
 #include "controller.h"
 #include "drawing.h"
 #include "collide.h"
+#include "targetting.h"
 #define PI 3.1415926535
 //#define gravity 0.2f
 
@@ -33,6 +34,7 @@ void KeysDown(unsigned char key, int x, int y)
     if (key == 'a') { K.a = 1; }
     if (key == 'd') { K.d = 1; }
     if (key == ' ') { K.space = 1; }
+    if (key == 'q') updateTarget();
     //esc
     if (key == 27) { toggleMouseLock = !toggleMouseLock; }
 }
@@ -78,17 +80,6 @@ void display() {
     glutPostRedisplay();
 }
 
-Block makeBlock(int x,int y,int z) {
-    Block result;
-    result.x = x;
-    result.y = y;
-    result.z = z;
-    return result;
-}
-void addBlock(int x,int y,int z) {
-    blocks[blockLength] = makeBlock(x,y,z);
-    blockLength = blockLength + 1;
-}
 
 void init()
 {

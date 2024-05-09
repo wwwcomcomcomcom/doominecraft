@@ -61,7 +61,7 @@ Player movePlayer(Player P,Keys K,Block* blocks)
     return P;
 }
 Vec3 getPlayerPos(Player P) {
-    Vec3 result;
+    static Vec3 result;
     result.x = P.x;
     result.y = P.y;
     result.z = P.z;

@@ -32,12 +32,13 @@ void updateTarget() {
 	for (int i = 0; i < blockLength; i++) {
 		Panel *blockPanels = convertToPanel(blocks[i]);
 		for (int j = 0; j < 6; j++) {
-			printf("y: %f\n",blockPanels[j].yMax);
 			Panel newPanel = blockPanels[j];
-			panels[i*6+i] = newPanel;
+			panels[i*6+j] = newPanel;
 		}
 	}
+	printf("panel test %f\n", panels[3].axisPos);
 	qsort(panels, panelLength, sizeof(Panel), comparePanelDistance);
+	printf("panel test %f\n", panels[3].axisPos);
 	for (int i = 0; i < panelLength; i++) {
 		if (isFacingPanel(facingVector, panels[i])) {
 			Vec3 playerPos = getPlayerPos(P);
@@ -51,9 +52,6 @@ void updateTarget() {
 			}
 			int roundY = (int)roundf(panels[i].yMax - Size);
 			int roundZ = (int)roundf(panels[i].xMax - Size);
-
-			printf("running %d %d %d\n",roundX,roundY,roundZ);
-
 			addBlock(roundX, roundY, roundZ);
 			break;
 		}
@@ -72,7 +70,12 @@ int comparePanelDistance(const Panel *a,const Panel *b) {
 }
 
 bool isFacingPanel(Vec3 facingVec, Panel panel) {
-	Vec3 playerPos = getPlayerPos(P);
+	Vec3 playerPos;
+	playerPos.x = P.x;
+	playerPos.y = P.y;
+	playerPos.z = P.z;
+	//Vec3 playerPos = getPlayerPos(P);
+	printf("%f %f %f\n", P.x, playerPos.y, playerPos.z);
 	if (panel.axis == 'x') {
 		float offset = panel.axisPos - playerPos.x;
 		float vecMultiplier = offset / facingVec.x;

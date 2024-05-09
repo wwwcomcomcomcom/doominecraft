@@ -62,10 +62,6 @@ Panel* convertToPanel(Block block) {
 	result[3] = panel4;
 	result[4] = panel5;
 	result[5] = panel6;
-
-	for (int i = 0; i < 6; i++) {
-		printf("%c", result[i].axis);
-	}
 	return result;
 }
 

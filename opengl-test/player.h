@@ -7,8 +7,10 @@
 #define playerHalfWidth playerWidth/2
 #define playerHalfHeight playerHeight/2
 #include "vec3.h"
+/* 파일 foo. */
+#ifndef FILE_FOO_SEEN
+#define FILE_FOO_SEEN
 
-// 구조체 선언
 typedef struct
 {
     float rotationX, rotationY;
@@ -17,8 +19,12 @@ typedef struct
     bool onGround;
 }Player;
 
-static Player P;
+Player P;
 
 // 함수 선언
-Player movePlayer(Player, Keys,Block*);
+Player movePlayer(Player, Keys, Block*);
 Vec3 getPlayerPos(Player P);
+
+
+#endif /* !FILE_FOO_SEEN */
+// 구조체 선언

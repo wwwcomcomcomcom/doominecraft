@@ -52,6 +52,10 @@ void updateTarget() {
 			}
 			int roundY = (int)roundf(panels[i].yMax - Size);
 			int roundZ = (int)roundf(panels[i].xMax - Size);
+
+			printf("panel test %d %d %d\n", roundX,roundY,roundZ);
+
+
 			addBlock(roundX, roundY, roundZ);
 			break;
 		}
@@ -59,27 +63,26 @@ void updateTarget() {
 	}
 }
 
-int comparePanelDistance(const Panel *a,const Panel *b) {
+int comparePanelDistance(Panel *a,const Panel *b) {
 	Vec3 aPos = getPanelPos(*a), bPos = getPanelPos(*b);
 	Vec3 playerVec = getPlayerPos(P);
 	float distanceA = getDistance(playerVec, aPos);
 	float distanceB = getDistance(playerVec, bPos);
 	if (distanceA < distanceB)
 		return -1;
-	return distanceA > distanceA;
+	return distanceA > distanceB;
 }
 
 bool isFacingPanel(Vec3 facingVec, Panel panel) {
 	Vec3 playerPos;
 	playerPos.x = P.x;
-	playerPos.y = P.y;
+	playerPos.y = P.y+1;
 	playerPos.z = P.z;
 	//Vec3 playerPos = getPlayerPos(P);
-	printf("%f %f %f\n", P.x, playerPos.y, playerPos.z);
 	if (panel.axis == 'x') {
 		float offset = panel.axisPos - playerPos.x;
 		float vecMultiplier = offset / facingVec.x;
-		if (vecMultiplier < 0) return false;
+		if (vecMultiplier > 0) return false;
 		Vec3 facingPoint = sumVector(playerPos, multiplyVec3(facingVec, vecMultiplier));
 		
 		if(
@@ -97,15 +100,16 @@ bool isFacingPanel(Vec3 facingVec, Panel panel) {
 	if (panel.axis == 'y') {
 		float offset = panel.axisPos - playerPos.y;
 		float vecMultiplier = offset / facingVec.y;
-		if (vecMultiplier < 0) return false;
+		if (vecMultiplier > 0) return false;
 		Vec3 facingPoint = sumVector(playerPos, multiplyVec3(facingVec, vecMultiplier));
-
+		
 		if (
 			facingPoint.z > panel.yMin
 			&& facingPoint.z < panel.yMax
 			&& facingPoint.x > panel.xMin
 			&& facingPoint.x < panel.xMax
 			) {
+			printf("%.2f %.2f\n", offset, facingPoint.y);
 			return true;
 		}
 		else {
@@ -115,9 +119,9 @@ bool isFacingPanel(Vec3 facingVec, Panel panel) {
 	if (panel.axis == 'z') {
 		float offset = panel.axisPos - playerPos.z;
 		float vecMultiplier = offset / facingVec.z;
-		if (vecMultiplier < 0) return false;
+		if (vecMultiplier > 0) return false;
 		Vec3 facingPoint = sumVector(playerPos, multiplyVec3(facingVec, vecMultiplier));
-
+		
 		if (
 			facingPoint.y > panel.yMin
 			&& facingPoint.y < panel.yMax
@@ -130,6 +134,10 @@ bool isFacingPanel(Vec3 facingVec, Panel panel) {
 			return false;
 		}
 	}
+
+	printf("targetting exception");
+	return true;
+
 }
 bool isPositive(float num) {
 	if (num > 0) return true;

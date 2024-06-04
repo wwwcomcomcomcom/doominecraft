@@ -11,3 +11,4 @@ Block blocks[1000];
 
 Block makeBlock(int x, int y, int z);
 void addBlock(int x, int y, int z);
+void removeBlock(int x, int y, int z);

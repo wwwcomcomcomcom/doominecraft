@@ -34,7 +34,8 @@ void KeysDown(unsigned char key, int x, int y)
     if (key == 'a') { K.a = 1; }
     if (key == 'd') { K.d = 1; }
     if (key == ' ') { K.space = 1; }
-    if (key == 'q') updateTarget();
+    if (key == 'q') interactBlock(false);
+    if (key == 'e') interactBlock(true);
     //esc
     if (key == 27) { toggleMouseLock = !toggleMouseLock; }
 }

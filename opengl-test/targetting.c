@@ -12,16 +12,7 @@
 bool isFacingPanel(Vec3, Panel);
 bool isPositive(float);
 
-Block getTargettingBlock() {
-	if (!hasTargettedBlock) {
-		return _targettedBlock;
-	}
-	else {
-		return _targettedBlock;
-	}
-}
-
-void updateTarget() {
+void interactBlock(bool destroy) {
 
 	Vec3 facingVector = getVectorWithRotation(P.rotationX, P.rotationY);
 	facingVector.x *= -1;
@@ -57,7 +48,14 @@ void updateTarget() {
 				}
 				int roundY = (int)(panels[i].yMax - Size);
 				int roundZ = (int)(panels[i].xMax - Size);
-
+				if (destroy) {
+					if (isPositive(offset)) {
+						roundX++;
+					}
+					else roundX--;
+					removeBlock(roundX, roundY, roundZ);
+					return;
+				}
 				addBlock(roundX, roundY, roundZ);
 			}
 			else if (panels[i].axis == 'y') {
@@ -70,7 +68,14 @@ void updateTarget() {
 				}
 				int roundX = (int)(panels[i].xMax - Size);
 				int roundZ = (int)(panels[i].yMax - Size);
-
+				if (destroy) {
+					if (isPositive(offset)) {
+						roundY++;
+					}
+					else roundY--;
+					removeBlock(roundX, roundY, roundZ);
+					return;
+				}
 				addBlock(roundX, roundY, roundZ);
 			}
 			else {
@@ -83,7 +88,14 @@ void updateTarget() {
 				}
 				int roundY = (int)(panels[i].yMax - Size);
 				int roundX = (int)(panels[i].xMax - Size);
-
+				if (destroy) {
+					if (isPositive(offset)) {
+						roundZ++;
+					}
+					else roundZ--;
+					removeBlock(roundX, roundY, roundZ);
+					return;
+				}
 				addBlock(roundX, roundY, roundZ);
 			}
 			

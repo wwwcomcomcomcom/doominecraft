@@ -6,6 +6,5 @@
 static Block _targettedBlock;
 static bool hasTargettedBlock = false;
 
-Block getTargettingBlock();
 int comparePanelDistance(Panel*,Panel*);
-void updateTarget();
+void interactBlock(bool);

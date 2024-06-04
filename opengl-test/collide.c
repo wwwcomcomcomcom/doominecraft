@@ -57,8 +57,8 @@ AABB getPlayerAABB(Player player) {
     AABB aabb;
     aabb.maxX = player.x + playerHalfWidth;
     aabb.minX = player.x - playerHalfWidth;
-    aabb.maxY = player.y + playerHalfHeight;
-    aabb.minY = player.y - playerHalfHeight;
+    aabb.maxY = player.y + playerHeight;
+    aabb.minY = player.y;
     aabb.maxZ = player.z + playerHalfWidth;
     aabb.minZ = player.z - playerHalfWidth;
     return aabb;

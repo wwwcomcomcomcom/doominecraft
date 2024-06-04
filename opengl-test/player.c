@@ -57,7 +57,7 @@ Player movePlayer(Player P,Keys K,Block* blocks)
     glLoadIdentity();
     glRotatef(P.rotationX, 1.0f, 0.0f, 0.0f);
     glRotatef(P.rotationY, 0.0f, 1.0f, 0.0f);
-    glTranslatef(-P.x, -(P.y + 1), -P.z);
+    glTranslatef(-P.x, -(P.y + 1.5), -P.z);
     return P;
 }
 Vec3 getPlayerPos(Player P) {

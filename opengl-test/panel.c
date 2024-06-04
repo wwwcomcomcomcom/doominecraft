@@ -8,16 +8,16 @@ Panel* convertToPanel(Block block) {
 	Panel panel1 = {
 		.axis = 'x',
 		.axisPos = block.x + Size,
-		.xMax = block.x + Size,
-		.xMin = block.x - Size,
+		.xMax = block.z + Size,
+		.xMin = block.z - Size,
 		.yMax = block.y + Size,
 		.yMin = block.y - Size,
 	};
 	Panel panel2 = {
 		.axis = 'x',
 		.axisPos = block.x - Size,
-		.xMax = block.x + Size,
-		.xMin = block.x - Size,
+		.xMax = block.z + Size,
+		.xMin = block.z - Size,
 		.yMax = block.y + Size,
 		.yMin = block.y - Size,
 	};

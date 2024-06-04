@@ -14,7 +14,6 @@ bool isPositive(float);
 
 Block getTargettingBlock() {
 	if (!hasTargettedBlock) {
-		exit(-1);
 		return _targettedBlock;
 	}
 	else {
@@ -23,12 +22,15 @@ Block getTargettingBlock() {
 }
 
 void updateTarget() {
-	printf("run\n");
 
 	Vec3 facingVector = getVectorWithRotation(P.rotationX, P.rotationY);
+	facingVector.x *= -1;
+	facingVector.z *= -1;
+
+	//printf("%.1f %.1f %.1f || %.1f %.1f %.1f\n", P.x, P.y, P.z, facingVector.x, facingVector.y, facingVector.z);
 
 	int panelLength = blockLength * 6;
-	Panel panels[600];
+	Panel panels[6000];
 	for (int i = 0; i < blockLength; i++) {
 		Panel *blockPanels = convertToPanel(blocks[i]);
 		for (int j = 0; j < 6; j++) {
@@ -36,27 +38,55 @@ void updateTarget() {
 			panels[i*6+j] = newPanel;
 		}
 	}
-	printf("panel test %f\n", panels[3].axisPos);
 	qsort(panels, panelLength, sizeof(Panel), comparePanelDistance);
-	printf("panel test %f\n", panels[3].axisPos);
 	for (int i = 0; i < panelLength; i++) {
 		if (isFacingPanel(facingVector, panels[i])) {
 			Vec3 playerPos = getPlayerPos(P);
-			float offset = panels[i].axisPos - playerPos.x;
-			int roundX;
-			if (isPositive(offset)) {
-				roundX = (int)roundf(panels[i].axisPos - Size);
+			float playerAxisPos=0.0f;
+			if (panels[i].axis == 'x') playerAxisPos = playerPos.x;
+			if (panels[i].axis == 'y') playerAxisPos = playerPos.y;
+			if (panels[i].axis == 'z') playerAxisPos = playerPos.z;
+			float offset = panels[i].axisPos - playerAxisPos;
+			if (panels[i].axis == 'x') {
+				int roundX;
+				if (isPositive(offset)) {
+					roundX = (int)(panels[i].axisPos - Size);
+				}
+				else {
+					roundX = (int)(panels[i].axisPos + Size);
+				}
+				int roundY = (int)(panels[i].yMax - Size);
+				int roundZ = (int)(panels[i].xMax - Size);
+
+				addBlock(roundX, roundY, roundZ);
+			}
+			else if (panels[i].axis == 'y') {
+				int roundY;
+				if (isPositive(offset)) {
+					roundY = (int)(panels[i].axisPos - Size);
+				}
+				else {
+					roundY = (int)(panels[i].axisPos + Size);
+				}
+				int roundX = (int)(panels[i].xMax - Size);
+				int roundZ = (int)(panels[i].yMax - Size);
+
+				addBlock(roundX, roundY, roundZ);
 			}
 			else {
-				roundX = (int)roundf(panels[i].axisPos + Size);
+				int roundZ;
+				if (isPositive(offset)) {
+					roundZ = (int)(panels[i].axisPos - Size);
+				}
+				else {
+					roundZ = (int)(panels[i].axisPos + Size);
+				}
+				int roundY = (int)(panels[i].yMax - Size);
+				int roundX = (int)(panels[i].xMax - Size);
+
+				addBlock(roundX, roundY, roundZ);
 			}
-			int roundY = (int)roundf(panels[i].yMax - Size);
-			int roundZ = (int)roundf(panels[i].xMax - Size);
-
-			printf("panel test %d %d %d\n", roundX,roundY,roundZ);
-
-
-			addBlock(roundX, roundY, roundZ);
+			
 			break;
 		}
 		//panels[i]
@@ -76,13 +106,12 @@ int comparePanelDistance(Panel *a,const Panel *b) {
 bool isFacingPanel(Vec3 facingVec, Panel panel) {
 	Vec3 playerPos;
 	playerPos.x = P.x;
-	playerPos.y = P.y+1;
+	playerPos.y = P.y+1.5;
 	playerPos.z = P.z;
-	//Vec3 playerPos = getPlayerPos(P);
 	if (panel.axis == 'x') {
 		float offset = panel.axisPos - playerPos.x;
 		float vecMultiplier = offset / facingVec.x;
-		if (vecMultiplier > 0) return false;
+		//if (vecMultiplier > 0) return false;
 		Vec3 facingPoint = sumVector(playerPos, multiplyVec3(facingVec, vecMultiplier));
 		
 		if(
@@ -97,34 +126,32 @@ bool isFacingPanel(Vec3 facingVec, Panel panel) {
 			return false;
 		}
 	}
-	if (panel.axis == 'y') {
-		float offset = panel.axisPos - playerPos.y;
-		float vecMultiplier = offset / facingVec.y;
-		if (vecMultiplier > 0) return false;
+	else if (panel.axis == 'z') {
+		float offset = panel.axisPos - playerPos.z;
+		float vecMultiplier = offset / facingVec.z;
+		//if (vecMultiplier > 0) return false;
 		Vec3 facingPoint = sumVector(playerPos, multiplyVec3(facingVec, vecMultiplier));
-		
+
 		if (
-			facingPoint.z > panel.yMin
-			&& facingPoint.z < panel.yMax
+			facingPoint.y > panel.yMin
+			&& facingPoint.y < panel.yMax
 			&& facingPoint.x > panel.xMin
 			&& facingPoint.x < panel.xMax
 			) {
-			printf("%.2f %.2f\n", offset, facingPoint.y);
 			return true;
 		}
 		else {
 			return false;
 		}
 	}
-	if (panel.axis == 'z') {
-		float offset = panel.axisPos - playerPos.z;
-		float vecMultiplier = offset / facingVec.z;
-		if (vecMultiplier > 0) return false;
+	else /*if (panel.axis == 'y')*/ {
+		float offset = panel.axisPos - playerPos.y;
+		float vecMultiplier = offset / facingVec.y;
 		Vec3 facingPoint = sumVector(playerPos, multiplyVec3(facingVec, vecMultiplier));
 		
 		if (
-			facingPoint.y > panel.yMin
-			&& facingPoint.y < panel.yMax
+			facingPoint.z > panel.yMin
+			&& facingPoint.z < panel.yMax
 			&& facingPoint.x > panel.xMin
 			&& facingPoint.x < panel.xMax
 			) {

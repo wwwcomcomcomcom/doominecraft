@@ -19,6 +19,7 @@ bool toggleMouseLock = true;
 //Player P;
 Keys K;
 
+
 //int blockLength = 0;
 //Block blocks[1000];
 
@@ -36,6 +37,7 @@ void KeysDown(unsigned char key, int x, int y)
     if (key == ' ') { K.space = 1; }
     if (key == 'q') interactBlock(false);
     if (key == 'e') interactBlock(true);
+
     //esc
     if (key == 27) { toggleMouseLock = !toggleMouseLock; }
 }
@@ -63,7 +65,8 @@ void mouse(int x, int y) {
 }
 
 void display() {
-
+    glLoadIdentity();
+    glBindTexture(GL_TEXTURE_2D, texture);
     if (Time.time1 - Time.time2 >= 50) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         P = movePlayer(P,K,blocks);
@@ -84,6 +87,12 @@ void display() {
 
 void init()
 {
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    initTextures();
     blockLength = 0;
     //init player
     P.x = 0; P.y = 0; P.z = 0;
@@ -115,7 +124,6 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(1200, 650);
     glutCreateWindow("OpenGL Cube");
-    glEnable(GL_DEPTH_TEST);
     init();
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);

@@ -10,6 +10,7 @@
 #include "drawing.h"
 #include "collide.h"
 #include "targetting.h"
+#include "texture.h"
 #define PI 3.1415926535
 //#define gravity 0.2f
 

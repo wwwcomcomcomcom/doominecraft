@@ -143,6 +143,7 @@
     <ClCompile Include="panel.c" />
     <ClCompile Include="player.c" />
     <ClCompile Include="targetting.c" />
+    <ClCompile Include="texture.c" />
     <ClCompile Include="vec3.c" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="panel.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="targetting.h" />
+    <ClInclude Include="texture.h" />
     <ClInclude Include="vec3.h" />
   </ItemGroup>
   <ItemGroup>

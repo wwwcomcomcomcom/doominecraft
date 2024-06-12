@@ -1,2 +1,6 @@
 #pragma once
-#include <GL/GL.h>
+#include <GL/glut.h>
+GLuint texture;
+
+void initTextures();
+void loadTexture(const char*);

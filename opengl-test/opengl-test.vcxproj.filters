@@ -42,6 +42,9 @@
     <ClCompile Include="panel.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="texture.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">
@@ -66,6 +69,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="panel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

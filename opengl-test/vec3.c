@@ -12,9 +12,9 @@ bool equalsVec3(Vec3 vec1, Vec3 vec2) {
 }
 Vec3 getVectorWithRotation(float rotationX, float rotationY) {
 	Vec3 result;
-	result.x = -sin(rotationY * PI / 180);
-	result.y = -sin(rotationX * PI / 180);
-	result.z = cos(rotationY * PI / 180);
+	result.x = -sin(rotationY * PI / 180.0);
+	result.y = -sin(rotationX * PI / 180.0);
+	result.z = cos(rotationY * PI / 180.0);
 	return result;
 }
 

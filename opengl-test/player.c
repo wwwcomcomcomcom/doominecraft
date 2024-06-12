@@ -8,7 +8,7 @@
 #include "collide.h"
 #include "vec3.h"
 
-#define PI 3.1415926535
+#define PI 3.1415926535897932384626
 #define Speed 0.3
 
 Player movePlayer(Player P,Keys K,Block* blocks)

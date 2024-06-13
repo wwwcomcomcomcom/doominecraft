@@ -1,10 +1,12 @@
 #include <GL/glut.h>
+#include <GL/GL.h>
 #include "drawing.h"
 #include "block.h"
 #include "texture.h"
 
-void cube(int x, int y, int z) {
+void cube(int x, int y, int z,GLuint texture) {
     // Draw a colored cube
+    glBindTexture(GL_TEXTURE_2D, texture);
     glBegin(GL_QUADS);
     // Front face
     //glColor3f(1.0f, 0.0f, 0.0f);
@@ -50,9 +52,9 @@ void cube(int x, int y, int z) {
 
     glEnd();
 }
-void cubeWithBorder(int x, int y, int z) {
+void cubeWithBorder(int x, int y, int z,GLuint texture) {
 
-    cube(x, y, z);
+    cube(x, y, z,texture);
     // Draw cube edges as lines to create a border effect
     //glLineWidth(3.0f);
     //glBegin(GL_LINES);

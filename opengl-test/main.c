@@ -38,7 +38,10 @@ void KeysDown(unsigned char key, int x, int y)
     if (key == ' ') { K.space = 1; }
     if (key == 'q') interactBlock(false);
     if (key == 'e') interactBlock(true);
-
+    if (key == '1') P.selectedBlock = 0;
+    if (key == '2') P.selectedBlock = 1;
+    if (key == '3') P.selectedBlock = 2;
+    if (key == '4') P.selectedBlock = 3;
     //esc
     if (key == 27) { toggleMouseLock = !toggleMouseLock; }
 }
@@ -67,7 +70,6 @@ void mouse(int x, int y) {
 
 void display() {
     glLoadIdentity();
-    glBindTexture(GL_TEXTURE_2D, texture);
     if (Time.time1 - Time.time2 >= 50) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         P = movePlayer(P,K,blocks);
@@ -75,7 +77,8 @@ void display() {
             cubeWithBorder(
                 blocks[i].x,
                 blocks[i].y,
-                blocks[i].z
+                blocks[i].z,
+                getTexture(blocks[i].textureSet)
             );
         }
         Time.time2 = Time.time1;
@@ -99,15 +102,16 @@ void init()
     P.x = 0; P.y = 0; P.z = 0;
     P.rotationX = 0.0f; P.rotationY = 0;
     P.onGround = true;
+    P.selectedBlock = 1;
 
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
-            addBlock(i - 2, 0, j - 2);
+            addBlock(i - 2, 0, j - 2,0);
         }
     }
-    addBlock(2, 1, 2);
-    addBlock(1, 1, 1);
-    addBlock(2, 1, 1);
+    addBlock(2, 1, 2,1);
+    addBlock(1, 1, 1,1);
+    addBlock(2, 1, 1,1);
 }
 
 void reshape(int w, int h) {

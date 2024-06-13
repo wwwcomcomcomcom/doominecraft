@@ -10,11 +10,20 @@ bool equalsVec3(Vec3 vec1, Vec3 vec2) {
 		) return 1;
 	else return 0;
 }
-Vec3 getVectorWithRotation(float rotationX, float rotationY) {
+Vec3 getDirectionWithRotation(float rotationX, float rotationY) {
 	Vec3 result;
 	result.x = -sin(rotationY * PI / 180.0);
 	result.y = -sin(rotationX * PI / 180.0);
 	result.z = cos(rotationY * PI / 180.0);
+	return result;
+}
+Vec3 getVectorWithRotation(float rotationX, float rotationY) {
+	Vec3 result;
+	double horizontalVector = cos(rotationX*PI/180.0);
+	double absoluteHorizontalVec = horizontalVector > 0 ? horizontalVector : -horizontalVector;
+	result.x = -sin(rotationY * PI / 180.0)*absoluteHorizontalVec;
+	result.y = -sin(rotationX * PI / 180.0);
+	result.z = cos(rotationY * PI / 180.0)*absoluteHorizontalVec;
 	return result;
 }
 

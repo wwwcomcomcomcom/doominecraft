@@ -56,7 +56,7 @@ void interactBlock(bool destroy) {
 					removeBlock(roundX, roundY, roundZ);
 					return;
 				}
-				addBlock(roundX, roundY, roundZ);
+				addBlock(roundX, roundY, roundZ,P.selectedBlock);
 			}
 			else if (panels[i].axis == 'y') {
 				int roundY;
@@ -76,7 +76,7 @@ void interactBlock(bool destroy) {
 					removeBlock(roundX, roundY, roundZ);
 					return;
 				}
-				addBlock(roundX, roundY, roundZ);
+				addBlock(roundX, roundY, roundZ,P.selectedBlock);
 			}
 			else {
 				int roundZ;
@@ -96,7 +96,7 @@ void interactBlock(bool destroy) {
 					removeBlock(roundX, roundY, roundZ);
 					return;
 				}
-				addBlock(roundX, roundY, roundZ);
+				addBlock(roundX, roundY, roundZ,P.selectedBlock);
 			}
 			
 			break;

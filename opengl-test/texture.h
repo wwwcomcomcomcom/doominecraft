@@ -1,6 +1,10 @@
 #pragma once
 #include <GL/glut.h>
-GLuint texture;
+GLuint grassTexture;
+GLuint stoneTexture;
+GLuint cobbleStoneTexture;
+GLuint plankTexture;
 
 void initTextures();
-void loadTexture(const char*);
+void loadTexture(const char*, GLuint*);
+GLuint getTexture(char);

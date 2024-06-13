@@ -18,7 +18,7 @@ Player movePlayer(Player P,Keys K,Block* blocks)
         P.vy = 3;
     }
 
-    Vec3 facingVector = getVectorWithRotation(P.rotationX, P.rotationY);
+    Vec3 facingVector = getDirectionWithRotation(P.rotationX, P.rotationY);
     facingVector = multiplyVec3(facingVector, Speed);
     
     //wasd

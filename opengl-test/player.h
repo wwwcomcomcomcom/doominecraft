@@ -17,6 +17,7 @@ typedef struct
     float x, y, z;
     float vy;
     bool onGround;
+    char selectedBlock;
 }Player;
 
 Player P;

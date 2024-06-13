@@ -1,15 +1,16 @@
 #include "block.h"
 #include <stdio.h>
 
-Block makeBlock(int x, int y, int z) {
+Block makeBlock(int x, int y, int z,char textureSet) {
     Block result;
     result.x = x;
     result.y = y;
     result.z = z;
+    result.textureSet = textureSet;
     return result;
 }
-void addBlock(int x, int y, int z) {
-    blocks[blockLength] = makeBlock(x, y, z);
+void addBlock(int x, int y, int z,char textureSet) {
+    blocks[blockLength] = makeBlock(x, y, z, textureSet);
     blockLength = blockLength + 1;
 }
 void removeBlock(int x, int y, int z) {
